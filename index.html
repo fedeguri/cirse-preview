@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════════════════
+  CIRSE CLUB DE LAGO — PUERTA 1 (Club) · Preview El Faro Digital
+  Vertical Turismo · Firma "Horizonte y Destello" · Paleta agua/costa
+  ═══════════════════════════════════════════════════════════════════════════════
+
+  ANTES DE MANDAR (lunes a la mañana):
+  1. FOTOS: los 5 slides del hero y las 4 fichas usan .ph (placeholder con gradiente).
+     Reemplazar cada <div class="ph" data-foto="..."> por <img src="URL-Cloudinary">.
+     Fuente de fotos: Google Maps CDN de las 3 fichas de Cirse → subir a Cloudinary
+     (plan gratis, f_auto/q_auto). Ver lista exacta en el bloque LISTA-DE-FOTOS abajo.
+  2. DOMINIO: cirseclubdelago.com está CAÍDO (NXDOMAIN verificado 25-jul-2026).
+     og:url y canonical quedan en REEMPLAZAR hasta saber qué dominio se usa.
+  3. PRECIOS: todo "Desde $— REEMPLAZAR" sale de la llamada. Regla dura de la
+     vertical: ningún servicio va con "Consultar" (salvo eventos corporativos).
+  4. TOUR 360: el iframe está comentado. Se activa cuando Facundo mande 4 fotos
+     360 (celular alcanza). Momento360, NO Kuula — el free de Kuula no muestra
+     hotspots al visitante.
+  5. ANALYTICS: descomentar GA4 + Pixel con los IDs reales.
+
+  LISTA-DE-FOTOS (qué va en cada slot):
+    hero-1  muelle sobre el Nahuel Huapi al atardecer
+    hero-2  vista general del predio desde el agua
+    hero-3  gastronomía / fogón con gente
+    hero-4  cabaña o domo entre árboles
+    hero-5  lanchas amarradas
+    aloj-camping   parcela con carpa y lago de fondo
+    aloj-cabana    interior o fachada de cabaña
+    aloj-glamping  domo / carpa premium
+    aloj-motorhome sector motorhome con conexiones
+    gastro-1       plato o barra de La Cabrona
+-->
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cirse Club de Lago — Camping, cabañas y gastronomía frente al Nahuel Huapi | Bariloche</title>
+<meta name="description" content="Camping, cabañas, glamping y motorhome frente al lago en Bustillo Km 14.500, Bariloche. Reservá directo, sin intermediarios. Gastronomía, muelle y marina propia.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cirse Club de Lago — frente al Nahuel Huapi, Bariloche">
+<meta property="og:description" content="Camping, cabañas, glamping y motorhome sobre la costa del Nahuel Huapi. Reservá directo.">
+<meta property="og:url" content="https://REEMPLAZAR-dominio.com/">
+<meta property="og:image" content="https://REEMPLAZAR-dominio.com/og-cirse.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://REEMPLAZAR-dominio.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%231B4B5A'/%3E%3Cpath d='M6 20c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-1.5 5 0' stroke='%23E8A33D' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='11' r='3.2' fill='%23F0E6D2'/%3E%3C/svg%3E">
+
+<!-- ══ ANALYTICS — descomentar y pegar IDs reales al entregar ══
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-REEMPLAZAR"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-REEMPLAZAR');</script>
+   ══ fin analytics ══ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lago:#1B4B5A; --lago-osc:#0F2E38; --agua:#2E8FA3; --agua-clara:#7FBECC;
+  --arena:#F0E6D2; --arena-osc:#DFCFAE; --destello:#E8A33D;
+  --carbon:#1C2225; --blanco:#FFFCF6;
+  --display:'Fraunces',serif; --texto:'Work Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --radio:6px; --sombra:0 20px 45px -20px rgba(15,46,56,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--texto);color:var(--carbon);background:var(--blanco);overflow-x:hidden;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.08}
+section{padding:5.5rem 0}
+@media(max-width:720px){section{padding:3.4rem 0}}
+.container{width:min(1180px,92%);margin-inline:auto}
+
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--agua);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--agua)}
+.titulo-seccion{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:1rem;color:var(--lago-osc)}
+.sub-seccion{max-width:640px;color:#55605f;font-size:1.05rem;margin-bottom:2.6rem}
+
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--texto);font-weight:600;font-size:.92rem;padding:.95rem 1.7rem;border-radius:3px;border:1.5px solid transparent;cursor:pointer;transition:.25s ease;white-space:nowrap}
+.btn-primario{background:var(--destello);color:var(--lago-osc)}
+.btn-primario:hover{background:#f2b558;transform:translateY(-2px)}
+.btn-secundario{border-color:rgba(255,252,246,.6);color:var(--blanco)}
+.btn-secundario:hover{background:rgba(255,255,255,.14)}
+.btn-outline{border-color:var(--lago);color:var(--lago)}
+.btn-outline:hover{background:var(--lago);color:var(--blanco)}
+
+/* ---------- HEADER ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4%;transition:.35s ease;background:linear-gradient(to bottom,rgba(15,46,56,.6),transparent)}
+header.scrolled{background:var(--blanco);box-shadow:0 2px 20px rgba(15,46,56,.12);padding:.7rem 4%}
+.logo{font-family:var(--display);font-size:1.25rem;font-weight:700;color:var(--blanco);letter-spacing:.01em}
+header.scrolled .logo{color:var(--lago-osc)}
+.logo span{color:var(--destello)}
+nav ul{display:flex;gap:1.9rem;align-items:center}
+nav a{color:var(--blanco);font-size:.9rem;font-weight:500;position:relative}
+header.scrolled nav a{color:var(--carbon)}
+nav a::after{content:"";position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:var(--destello);transition:.25s}
+nav a:hover::after{width:100%}
+.nav-marina{border:1.4px solid var(--destello);padding:.45rem 1rem;border-radius:3px;color:var(--destello)!important}
+.nav-marina::after{display:none}
+.menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.menu-toggle span{width:26px;height:2px;background:var(--blanco);transition:.3s}
+header.scrolled .menu-toggle span{background:var(--carbon)}
+@media(max-width:900px){
+  .menu-toggle{display:flex}
+  nav{position:fixed;inset:0 0 0 auto;width:min(78%,320px);background:var(--lago-osc);transform:translateX(100%);transition:.35s;display:flex;align-items:center;justify-content:center}
+  nav.abierto{transform:translateX(0)}
+  nav ul{flex-direction:column;gap:1.6rem}
+  nav a,header.scrolled nav a{color:var(--blanco);font-size:1.05rem}
+}
+
+/* ---------- HERO (patrón H1: rotativo Ken Burns) ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;color:var(--blanco)}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.hero-slide.activa{opacity:1}
+.hero-slide.activa .ph,.hero-slide.activa img{animation:kb 9s ease-out forwards}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-slide .ph,.hero-slide img{width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,46,56,.86) 0%,rgba(15,46,56,.55) 45%,rgba(15,46,56,.25) 100%)}
+.hero-inner{position:relative;z-index:2;width:min(1180px,92%);margin-inline:auto;padding:7rem 0 4rem}
+.sello-coord{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;color:var(--destello);display:inline-flex;align-items:center;gap:.7rem;margin-bottom:1.4rem;border:1px solid rgba(232,163,61,.4);padding:.4rem .85rem;border-radius:2px}
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);max-width:16ch;margin-bottom:1.3rem}
+.hero p.bajada{max-width:52ch;font-size:1.1rem;color:rgba(255,252,246,.86);margin-bottom:2.4rem}
+.hero-dots{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);display:flex;gap:.55rem;z-index:3}
+.hero-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,252,246,.35);cursor:pointer;transition:.25s}
+.hero-dots span.activo{background:var(--destello);width:22px;border-radius:4px}
+
+/* ---------- BIFURCACIÓN ---------- */
+.bifurca{display:flex;gap:1rem;flex-wrap:wrap}
+.puerta{flex:1 1 240px;background:rgba(255,252,246,.07);border:1.4px solid rgba(255,252,246,.28);border-radius:var(--radio);padding:1.3rem 1.5rem;transition:.28s;backdrop-filter:blur(4px);display:block}
+.puerta:hover{background:rgba(255,252,246,.14);border-color:var(--destello);transform:translateY(-3px)}
+.puerta b{display:block;font-family:var(--display);font-size:1.22rem;margin-bottom:.25rem}
+.puerta small{font-size:.86rem;color:rgba(255,252,246,.72);display:block}
+.puerta .flecha{color:var(--destello);font-size:1.1rem;margin-top:.6rem;display:inline-block}
+
+/* ---------- RESUMEN DIRECTO ---------- */
+.resumen-wrap{background:var(--arena)}
+.resumen-directo{font-size:1.18rem;line-height:1.75;max-width:78ch;color:var(--lago-osc)}
+.resumen-directo b{color:var(--carbon)}
+
+/* ---------- BARRA DE CONFIANZA ---------- */
+.confianza{background:var(--lago-osc);color:var(--blanco);padding:1.6rem 0}
+.confianza .container{display:flex;flex-wrap:wrap;gap:1.4rem 2.6rem;justify-content:space-between;align-items:center}
+.conf-item{display:flex;align-items:center;gap:.6rem;font-size:.92rem}
+.conf-item b{font-family:var(--display);font-size:1.35rem;color:var(--destello);line-height:1}
+.conf-item small{color:rgba(255,252,246,.7);display:block;font-size:.76rem}
+
+/* ---------- FICHAS DE ALOJAMIENTO (patrón B2: tilt 3D) ---------- */
+.grid-aloj{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.6rem}
+.ficha{background:var(--blanco);border:1px solid var(--arena-osc);border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);transition:transform .18s ease;transform-style:preserve-3d;will-change:transform}
+.ficha .ph,.ficha>img{height:190px;object-fit:cover;width:100%}
+.ficha-body{padding:1.4rem 1.5rem 1.6rem}
+.ficha h3{font-size:1.3rem;color:var(--lago-osc);margin-bottom:.3rem}
+.ficha .cap{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--agua);text-transform:uppercase}
+.precio{font-family:var(--display);font-size:1.5rem;color:var(--destello);margin:.8rem 0 1rem;display:block}
+.precio small{font-family:var(--texto);font-size:.78rem;color:#7a8483;display:block;font-weight:400}
+.incluye{border-top:1px solid var(--arena-osc);padding-top:.95rem;margin-top:.2rem}
+.incluye li{font-size:.87rem;padding:.2rem 0 .2rem 1.3rem;position:relative;color:#4a5453}
+.incluye li.si::before{content:"✓";position:absolute;left:0;color:var(--agua);font-weight:700}
+.incluye li.no::before{content:"×";position:absolute;left:0;color:#c0705a;font-weight:700}
+.incluye .rot{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:#8d9695;margin:.7rem 0 .25rem;display:block}
+
+/* ---------- TOUR 360 ---------- */
+.tour360-wrap{background:var(--lago-osc);color:var(--blanco)}
+.tour-360{width:100%;aspect-ratio:16/9;border:0;border-radius:var(--radio)}
+.tour-360-pendiente{width:100%;aspect-ratio:16/9;border-radius:var(--radio);border:1.5px dashed rgba(232,163,61,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.7rem;padding:2rem;background:rgba(255,252,246,.04)}
+.tour-360-pendiente b{font-family:var(--display);font-size:1.4rem;color:var(--destello)}
+.tour-360-pendiente p{max-width:46ch;font-size:.94rem;color:rgba(255,252,246,.78)}
+
+/* ---------- RESERVAS ---------- */
+.reservas{background:linear-gradient(160deg,var(--lago) 0%,var(--lago-osc) 100%);color:var(--blanco);position:relative;overflow:hidden}
+.reservas .titulo-seccion{color:var(--blanco)}
+.reservas .eyebrow,.reservas .eyebrow::before{color:var(--destello);background:var(--destello)}
+.reservas .eyebrow{background:none;color:var(--destello)}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(232,163,61,.16) 0%,transparent 68%);pointer-events:none;transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;z-index:0}
+.reservas .container{position:relative;z-index:1}
+.reserva-grid{display:grid;grid-template-columns:1.35fr .95fr;gap:2.2rem;align-items:start}
+@media(max-width:880px){.reserva-grid{grid-template-columns:1fr}}
+.selector-servicio{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.6rem}
+.chip{font-size:.85rem;font-weight:500;padding:.55rem 1.05rem;border-radius:3px;border:1.3px solid rgba(255,252,246,.32);cursor:pointer;transition:.22s;background:none;color:var(--blanco);font-family:var(--texto)}
+.chip:hover{border-color:var(--destello)}
+.chip.activo{background:var(--destello);color:var(--lago-osc);border-color:var(--destello);font-weight:600}
+.calendario{background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.16);border-radius:var(--radio);padding:1.3rem}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-head h4{font-size:1.1rem;text-transform:capitalize}
+.cal-head button{background:none;border:1px solid rgba(255,252,246,.3);color:var(--blanco);width:32px;height:32px;border-radius:3px;cursor:pointer;font-size:1rem;transition:.2s}
+.cal-head button:hover{border-color:var(--destello);color:var(--destello)}
+.cal-dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+.cal-dias span{text-align:center;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:rgba(255,252,246,.5);text-transform:uppercase}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dia{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.85rem;border-radius:3px;transition:.18s}
+.cal-dia.vacio{visibility:hidden}
+.cal-dia.libre{background:rgba(255,252,246,.09);cursor:pointer}
+.cal-dia.libre:hover{background:rgba(232,163,61,.35)}
+.cal-dia.bloqueado{color:rgba(255,252,246,.22);text-decoration:line-through}
+.cal-dia.hoy{outline:1px solid rgba(232,163,61,.6)}
+.cal-dia.seleccionado{background:var(--destello);color:var(--lago-osc);font-weight:700}
+.cal-ref{display:flex;gap:1.2rem;margin-top:.9rem;font-size:.74rem;color:rgba(255,252,246,.62)}
+.cal-ref i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:.35rem;vertical-align:-1px}
+.form-fila{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:520px){.form-fila{grid-template-columns:1fr}}
+.form-campo{margin-top:.85rem}
+.form-campo label{display:block;font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,252,246,.6);margin-bottom:.35rem}
+.form-campo input,.form-campo textarea,.form-campo select{width:100%;background:rgba(255,252,246,.07);border:1.2px solid rgba(255,252,246,.2);border-radius:3px;padding:.7rem .85rem;color:var(--blanco);font-family:var(--texto);font-size:.92rem;transition:.2s}
+.form-campo input:focus,.form-campo textarea:focus,.form-campo select:focus{outline:none;border-color:var(--destello);background:rgba(255,252,246,.11)}
+.form-campo input::placeholder,.form-campo textarea::placeholder{color:rgba(255,252,246,.35)}
+.form-campo.error input{border-color:#e08d6f}
+.form-campo .pista{display:none;font-size:.76rem;color:#f0b39a;margin-top:.3rem}
+.form-campo.error .pista{display:block}
+.resumen{background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.16);border-radius:var(--radio);padding:1.4rem;position:sticky;top:100px}
+.resumen h4{font-size:1.05rem;margin-bottom:1rem;color:var(--destello)}
+.resumen-linea{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:1px dashed rgba(255,252,246,.14);font-size:.88rem}
+.resumen-linea span{color:rgba(255,252,246,.62)}
+.res-error{display:none;font-size:.82rem;color:#f0b39a;margin-top:.9rem;border-left:2px solid #e08d6f;padding-left:.7rem}
+.res-error.visible{display:block}
+.res-ok{display:none;font-size:.86rem;color:var(--destello);margin-top:.9rem;border-left:2px solid var(--destello);padding-left:.7rem}
+.res-ok.visible{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.nota-cancel{font-size:.76rem;color:rgba(255,252,246,.55);margin-top:1rem;line-height:1.5}
+
+/* ---------- GASTRONOMÍA ---------- */
+.gastro{background:var(--arena)}
+.gastro-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;align-items:center}
+@media(max-width:820px){.gastro-grid{grid-template-columns:1fr}}
+.gastro .ph,.gastro>.container>.gastro-grid>img{border-radius:var(--radio);height:340px;object-fit:cover;width:100%}
+.dato{display:flex;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--arena-osc);font-size:.93rem}
+.dato b{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--agua);min-width:112px;padding-top:.15rem}
+.aviso-cubierto{background:rgba(232,163,61,.16);border-left:3px solid var(--destello);padding:.9rem 1.1rem;border-radius:0 3px 3px 0;font-size:.9rem;margin-top:1.3rem;color:var(--lago-osc)}
+
+/* ---------- EVENTOS ---------- */
+.eventos{background:var(--lago-osc);color:var(--blanco)}
+.eventos .titulo-seccion{color:var(--blanco)}
+.ev-tipos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-bottom:2.4rem}
+.ev-card{border:1px solid rgba(255,252,246,.18);border-radius:var(--radio);padding:1.4rem;background:rgba(255,252,246,.04);transition:.25s}
+.ev-card:hover{border-color:var(--destello);background:rgba(255,252,246,.08)}
+.ev-card h3{font-size:1.15rem;color:var(--destello);margin-bottom:.5rem}
+.ev-card p{font-size:.9rem;color:rgba(255,252,246,.75)}
+
+/* ---------- FAQ / UBICACIÓN ---------- */
+.ubi-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem}
+@media(max-width:820px){.ubi-grid{grid-template-columns:1fr}}
+.mapa{width:100%;height:330px;border:0;border-radius:var(--radio)}
+details{border-bottom:1px solid var(--arena-osc);padding:.95rem 0}
+summary{cursor:pointer;font-weight:600;font-size:.98rem;color:var(--lago-osc);list-style:none;display:flex;justify-content:space-between;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--destello);font-size:1.2rem;line-height:1}
+details[open] summary::after{content:"−"}
+details p{font-size:.92rem;color:#55605f;margin-top:.6rem;max-width:62ch}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--carbon);color:rgba(255,252,246,.72);padding:3.4rem 0 2rem;font-size:.9rem}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2rem;margin-bottom:2.2rem}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr}}
+footer h4{color:var(--blanco);font-size:1rem;margin-bottom:.8rem}
+footer li{padding:.22rem 0}
+footer a:hover{color:var(--destello)}
+.foot-bottom{border-top:1px solid rgba(255,252,246,.12);padding-top:1.3rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.78rem;color:rgba(255,252,246,.45)}
+
+/* ---------- WHATSAPP FLOTANTE ---------- */
+.wa-flotante{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.24);transition:.25s}
+.wa-flotante:hover{transform:scale(1.07)}
+.wa-flotante svg{width:28px;height:28px;fill:#fff}
+
+
+/* Fotos reales cargadas — mismo comportamiento visual que los placeholders .ph */
+.hero-slide img{width:100%;height:100%;object-fit:cover}
+.ficha .ph, .ficha>img, .gastro .ph, .gastro-grid>img{object-fit:cover;width:100%}
+
+/* ---------- PLACEHOLDER DE FOTO (fallback para slots sin foto real todavía) ---------- */
+.ph{background:linear-gradient(135deg,#1B4B5A 0%,#2E8FA3 55%,#7FBECC 100%);position:relative;display:flex;align-items:center;justify-content:center;min-height:180px}
+.ph::after{content:attr(data-foto);font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,252,246,.72);text-align:center;padding:0 1rem;line-height:1.6}
+
+/* ---------- C1: texto escalonado ---------- */
+.esc>*{opacity:0;transform:translateY(14px);animation:esc .7s ease forwards}
+.esc>*:nth-child(1){animation-delay:.05s}
+.esc>*:nth-child(2){animation-delay:.18s}
+.esc>*:nth-child(3){animation-delay:.31s}
+.esc>*:nth-child(4){animation-delay:.44s}
+@keyframes esc{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .esc>*{opacity:1;transform:none;animation:none}
+  .hero-slide.activa .ph,.hero-slide.activa img{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a href="#inicio" class="logo">Cirse <span>Club de Lago</span></a>
+  <nav id="nav">
+    <ul>
+      <li><a href="#alojamiento">Alojamiento</a></li>
+      <li><a href="#reservas">Reservá</a></li>
+      <li><a href="#gastronomia">Gastronomía</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#ubicacion">Cómo llegar</a></li>
+      <li><a href="marina.html" class="nav-marina">Marina</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="inicio">
+  <div class="hero-slide activa"><img src="images/hero-1.jpg" alt="Vista aérea nocturna del predio de Cirse Club de Lago"></div>
+  <div class="hero-slide"><img src="images/hero-2.jpg" alt="Vista de Cirse Club de Lago"></div>
+  <div class="hero-slide"><img src="images/hero-3.jpg" alt="Carpas del Mercat del Cirse de noche"></div>
+  <div class="hero-slide"><img src="images/hero-4.jpg" alt="Muelle de Cirse Club de Lago"></div>
+  <div class="hero-slide"><img src="images/hero-5.jpg" alt="Vista aérea de Cirse Club de Lago con lanchas en el agua"></div>
+
+  <div class="hero-inner esc">
+    <div class="sello-coord">41°05′S 71°27′O · Nahuel Huapi</div>
+    <h1>El lugar indicado, la gente indicada, y el sol cayendo sobre el lago.</h1>
+    <p class="bajada">Camping, cabañas, glamping y motorhome sobre la costa, en Bustillo Km 14.500. Gastronomía, muelle propio y marina, a veinte minutos del centro de Bariloche.</p>
+    <div class="bifurca">
+      <a href="#alojamiento" class="puerta" data-cp-magnetico>
+        <b>Vengo al lago</b>
+        <small>Camping, cabañas, glamping, motorhome y gastronomía</small>
+        <span class="flecha">→</span>
+      </a>
+      <a href="marina.html" class="puerta" data-cp-magnetico>
+        <b>Traigo embarcación</b>
+        <small>Amarras, guardería, bajada de lanchas y escuela náutica</small>
+        <span class="flecha">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<!-- ══════════ RESUMEN DIRECTO (para motores de IA y búsqueda) ══════════ -->
+<section class="resumen-wrap" style="padding:3.2rem 0">
+  <div class="container">
+    <p class="resumen-directo">
+      <b>Cirse Club de Lago</b> es un complejo turístico sobre la costa del lago Nahuel Huapi, en Av. Bustillo Km 14.500, San Carlos de Bariloche, Argentina. Ofrece <b>camping, cabañas, glamping y sector motorhome</b>, servicio de <b>gastronomía</b> a la orilla del lago, <b>muelle propio</b> y una <b>marina con amarras y guardería náutica</b>. Se reserva de forma directa, sin intermediarios.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ BARRA DE CONFIANZA ══════════ -->
+<div class="confianza">
+  <div class="container">
+    <div class="conf-item"><b>4,3★</b><span>Más de 1.300 reseñas<small>Google · las tres fichas del predio</small></span></div>
+    <div class="conf-item"><b>Km 14,5</b><span>Av. Ezequiel Bustillo<small>Costa del Nahuel Huapi</small></span></div>
+    <div class="conf-item"><b>20′</b><span>del centro de Bariloche<small>En auto por Bustillo</small></span></div>
+    <div class="conf-item"><b>0%</b><span>de comisión de intermediarios<small>Reservás directo con nosotros</small></span></div>
+  </div>
+</div>
+
+<!-- ══════════ ALOJAMIENTO ══════════ -->
+<section id="alojamiento">
+  <div class="container">
+    <div class="eyebrow">Las cuatro formas de quedarte</div>
+    <h2 class="titulo-seccion">Elegí cómo dormir frente al lago</h2>
+    <p class="sub-seccion">Cada opción con su precio y, al lado, exactamente qué incluye y qué no. Sin sorpresas al llegar.</p>
+
+    <div class="grid-aloj">
+      <!-- CAMPING -->
+      <article class="ficha" data-cp-tilt>
+        <img src="images/aloj-camping.jpg" alt="Carpas de camping en Cirse Club de Lago">
+        <div class="ficha-body">
+          <span class="cap">Por persona / noche</span>
+          <h3>Camping</h3>
+          <span class="precio">Desde $— <small>REEMPLAZAR · por persona, por noche</small></span>
+          <ul class="incluye">
+            <span class="rot">Incluye</span>
+            <li class="si">Parcela con parrilla y mesa</li>
+            <li class="si">Baños y duchas con agua caliente</li>
+            <li class="si">Acceso al muelle y a la costa</li>
+            <span class="rot">No incluye</span>
+            <li class="no">Carpa ni equipo de camping</li>
+            <li class="no">Leña (se vende en el predio)</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- CABAÑA -->
+      <article class="ficha" data-cp-tilt>
+        <div class="ph" data-foto="aloj-cabana · fachada o interior de cabaña"></div>
+        <div class="ficha-body">
+          <span class="cap">Hasta — personas</span>
+          <h3>Cabaña</h3>
+          <span class="precio">Desde $— <small>REEMPLAZAR · por noche, unidad completa</small></span>
+          <ul class="incluye">
+            <span class="rot">Incluye</span>
+            <li class="si">Ropa de cama y toallas</li>
+            <li class="si">Cocina equipada y calefacción</li>
+            <li class="si">Estacionamiento junto a la unidad</li>
+            <span class="rot">No incluye</span>
+            <li class="no">Desayuno</li>
+            <li class="no">Servicio de mucama diario</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- GLAMPING -->
+      <article class="ficha" data-cp-tilt>
+        <div class="ph" data-foto="aloj-glamping · domo o carpa premium"></div>
+        <div class="ficha-body">
+          <span class="cap">Hasta — personas</span>
+          <h3>Glamping</h3>
+          <span class="precio">Desde $— <small>REEMPLAZAR · por noche, unidad completa</small></span>
+          <ul class="incluye">
+            <span class="rot">Incluye</span>
+            <li class="si">Domo equipado con cama y calefacción</li>
+            <li class="si">Baño privado</li>
+            <li class="si">Deck con vista al lago</li>
+            <span class="rot">No incluye</span>
+            <li class="no">Cocina propia</li>
+            <li class="no">Desayuno</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- MOTORHOME -->
+      <article class="ficha" data-cp-tilt>
+        <div class="ph" data-foto="aloj-motorhome · sector motorhome con conexiones"></div>
+        <div class="ficha-body">
+          <span class="cap">Por vehículo / noche</span>
+          <h3>Motorhome</h3>
+          <span class="precio">Desde $— <small>REEMPLAZAR · por vehículo, por noche</small></span>
+          <ul class="incluye">
+            <span class="rot">Incluye</span>
+            <li class="si">Conexión eléctrica</li>
+            <li class="si">Carga de agua y descarga</li>
+            <li class="si">Baños y duchas del predio</li>
+            <span class="rot">No incluye</span>
+            <li class="no">Servicio de lavandería</li>
+            <li class="no">Alquiler del motorhome</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOUR 360 ══════════ -->
+<section class="tour360-wrap" id="tour360">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--destello)">Recorré antes de reservar</div>
+    <h2 class="titulo-seccion" style="color:var(--blanco)">Tour 360° del predio</h2>
+    <p class="sub-seccion" style="color:rgba(255,252,246,.72)">Mirá el muelle, la costa y las unidades desde adentro, moviendo la imagen con el dedo o el mouse.</p>
+
+    <!--
+      DEMO DE FUNCIONAMIENTO — no es de Cirse. Es el embed público oficial que
+      Momento360 publica en su propia documentación, para probar que el
+      mecanismo anda antes de tener fotos reales del predio. Reemplazar el
+      src por el embed real en cuanto lleguen las 4 fotos 360 de Cirse:
+        1) el muelle    2) la costa/patio con vista al lago
+        3) una unidad tipo por dentro    4) el sector de amarras
+      Herramienta: Momento360 (plan gratis). NO usar Kuula free: no muestra los
+      hotspots de navegación al visitante, solo al dueño logueado.
+    -->
+    <iframe class="tour-360"
+      src="https://momento360.com/e/u/a9b53aa8f8b0403ba7a4e18243aabc66"
+      frameborder="0" allowfullscreen allow="xr-spatial-tracking; gyroscope; accelerometer"></iframe>
+    <p style="font-size:.82rem;color:rgba(255,252,246,.55);margin-top:.9rem;max-width:60ch">
+      ⚠️ Este es un ejemplo público de Momento360 para mostrar cómo funciona — no es una foto real de Cirse. Con 4 fotos 360° del predio (el modo panorámica del celular alcanza), el recorrido queda con su propio espacio en quince minutos.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ RESERVAS ══════════ -->
+<section class="reservas" id="reservas">
+  <div class="glow" id="glow"></div>
+  <div class="container">
+    <div class="eyebrow">Reservá directo</div>
+    <h2 class="titulo-seccion">Elegí servicio, fecha y mandanos la solicitud</h2>
+    <p class="sub-seccion" style="color:rgba(255,252,246,.72)">La disponibilidad cambia según el servicio. Te contestamos por WhatsApp para confirmar y coordinar la seña.</p>
+
+    <div class="reserva-grid">
+      <div>
+        <div class="selector-servicio" id="selectorServicio"></div>
+
+        <div class="calendario">
+          <div class="cal-head">
+            <button id="calPrev" aria-label="Mes anterior">‹</button>
+            <h4 id="calMes"></h4>
+            <button id="calNext" aria-label="Mes siguiente">›</button>
+          </div>
+          <div class="cal-dias"><span>lu</span><span>ma</span><span>mi</span><span>ju</span><span>vi</span><span>sá</span><span>do</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-ref">
+            <span><i style="background:rgba(255,252,246,.18)"></i>Disponible</span>
+            <span><i style="background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.2)"></i>Ocupado</span>
+            <span><i style="background:var(--destello)"></i>Elegido</span>
+          </div>
+        </div>
+
+        <div class="form-fila">
+          <div class="form-campo" id="c-nombre"><label for="rNombre">Nombre</label><input type="text" id="rNombre" placeholder="Tu nombre"><span class="pista">Poné tu nombre así sabemos con quién hablamos.</span></div>
+          <div class="form-campo" id="c-personas"><label for="rPersonas">Personas</label><input type="number" id="rPersonas" min="1" placeholder="Ej: 4"><span class="pista">Decinos cuántos son — cambia la unidad que te ofrecemos.</span></div>
+        </div>
+        <div class="form-campo" id="c-tel"><label for="rTelefono">Teléfono / WhatsApp</label><input type="tel" id="rTelefono" placeholder="+54 9 ..."><span class="pista">Necesitamos un teléfono para poder responderte.</span></div>
+        <div class="form-campo"><label for="rComentario">Comentario (opcional)</label><textarea rows="3" id="rComentario" placeholder="Vienen con mascota, traen lancha, cumpleaños..."></textarea></div>
+      </div>
+
+      <aside class="resumen">
+        <h4>Tu solicitud</h4>
+        <div class="resumen-linea"><span>Servicio</span><b id="resServicio">Camping</b></div>
+        <div class="resumen-linea"><span>Fecha</span><b id="resFecha">Por elegir</b></div>
+        <div class="resumen-linea"><span>Personas</span><b id="resPersonas">—</b></div>
+        <div class="resumen-linea"><span>Referencia</span><b id="resPrecio">Desde $— p/p</b></div>
+        <div class="res-error" id="resError" role="alert">Elegí primero una fecha disponible en el calendario.</div>
+        <div class="res-ok" id="resOk" role="status">Listo — se abrió WhatsApp con tu solicitud cargada.</div>
+        <a href="#" id="btnReservar" class="btn btn-primario" style="width:100%;justify-content:center;margin-top:1.3rem" data-cp-magnetico>Enviar solicitud de reserva</a>
+        <a href="#" id="btnPagar" class="btn btn-secundario" style="width:100%;justify-content:center;margin-top:.7rem"><span>Coordinar seña por WhatsApp</span></a>
+        <p class="nota-cancel" id="notaCancel">Política de cancelación: REEMPLAZAR con la política real del cliente (plazo y porcentaje de devolución). Va escrita antes del botón, no escondida.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GASTRONOMÍA ══════════ -->
+<section class="gastro" id="gastronomia">
+  <div class="container">
+    <div class="gastro-grid">
+      <img src="images/gastro-1.jpg" alt="Gastronomía en Cirse Club de Lago">
+      <div>
+        <div class="eyebrow">Comer frente al agua</div>
+        <h2 class="titulo-seccion">Gastronomía a la orilla del lago</h2>
+        <p style="color:#55605f;margin-bottom:1.4rem">Cocina a la vista y mesas sobre la costa. Abierto también para quien no se aloja en el predio.</p>
+        <div class="dato"><b>Horarios</b><span>REEMPLAZAR · días y franja horaria reales</span></div>
+        <div class="dato"><b>Reserva de mesa</b><span>REEMPLAZAR · ¿hace falta reservar o se llega y listo?</span></div>
+        <div class="dato"><b>Menú</b><span>REEMPLAZAR · link al menú o descripción corta de la propuesta</span></div>
+        <div class="aviso-cubierto">
+          <b>Cubierto:</b> REEMPLAZAR con el monto real, o "no se cobra cubierto".<br>
+          <span style="font-size:.84rem;opacity:.85">Esto va declarado a propósito. Es la queja que más se repite en las reseñas del predio, y decirlo antes convierte mejor que esconderlo.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EVENTOS ══════════ -->
+<section class="eventos" id="eventos">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--destello)">Eventos en el club</div>
+    <h2 class="titulo-seccion">El predio también se alquila</h2>
+    <p class="sub-seccion" style="color:rgba(255,252,246,.72)">Del recital al casamiento. Contanos qué tenés en mente y te armamos la propuesta.</p>
+
+    <div class="ev-tipos">
+      <article class="ev-card">
+        <h3>Festivales y música en vivo</h3>
+        <p>El predio ya recibió festivales con artistas de primera línea. Capacidad, escenario y logística probados.</p>
+      </article>
+      <article class="ev-card">
+        <h3>Eventos privados</h3>
+        <p>Casamientos, cumpleaños y celebraciones con el lago de fondo. Gastronomía propia y alojamiento en el mismo lugar.</p>
+      </article>
+      <article class="ev-card">
+        <h3>Empresas</h3>
+        <p>Jornadas de trabajo, incentivos y fin de año. Salón, actividades náuticas y catering coordinados desde acá.</p>
+      </article>
+    </div>
+
+    <div style="max-width:620px">
+      <div class="form-campo"><label for="evTipo">Tipo de evento</label>
+        <select id="evTipo">
+          <option>Festival o música en vivo</option>
+          <option>Evento privado (casamiento, cumpleaños)</option>
+          <option>Empresa (jornada, incentivo, fin de año)</option>
+          <option>Evento náutico (regata, escuela)</option>
+        </select>
+      </div>
+      <div class="form-fila">
+        <div class="form-campo" id="c-evNombre"><label for="evNombre">Nombre</label><input type="text" id="evNombre" placeholder="Tu nombre"><span class="pista">Necesitamos tu nombre para responderte.</span></div>
+        <div class="form-campo" id="c-evPersonas"><label for="evPersonas">Personas aprox.</label><input type="number" id="evPersonas" min="1" placeholder="Ej: 120"><span class="pista">Una cifra aproximada alcanza — define todo lo demás.</span></div>
+      </div>
+      <div class="form-campo" id="c-evTel"><label for="evTel">Teléfono / WhatsApp</label><input type="tel" id="evTel" placeholder="+54 9 ..."><span class="pista">Sin teléfono no podemos contestarte.</span></div>
+      <div class="form-campo"><label for="evFecha">Fecha tentativa</label><input type="text" id="evFecha" placeholder="Ej: segundo fin de semana de febrero"></div>
+      <div class="res-ok" id="evOk" role="status">Listo — se abrió WhatsApp con tu consulta cargada.</div>
+      <a href="#" id="btnEvento" class="btn btn-primario" style="margin-top:1.2rem" data-cp-magnetico>Consultar por mi evento</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ UBICACIÓN + FAQ ══════════ -->
+<section id="ubicacion">
+  <div class="container">
+    <div class="ubi-grid">
+      <div>
+        <div class="eyebrow">Cómo llegar</div>
+        <h2 class="titulo-seccion">Av. Bustillo Km 14.500</h2>
+        <p style="color:#55605f;margin-bottom:1.4rem">Sobre la costa del Nahuel Huapi, a unos veinte minutos del centro de Bariloche por Av. Ezequiel Bustillo.</p>
+        <iframe class="mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Cirse Club de Lago"
+          src="https://www.google.com/maps?q=-41.093,-71.455&z=14&output=embed"></iframe>
+        <p style="font-size:.78rem;color:#8d9695;margin-top:.6rem">REEMPLAZAR las coordenadas del mapa por las exactas del predio.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Preguntas frecuentes</div>
+        <h2 class="titulo-seccion">Lo que más nos preguntan</h2>
+        <details><summary>¿Puedo ir con mascota?</summary><p>REEMPLAZAR con la política real: en qué sectores sí, en cuáles no, si hay cargo.</p></details>
+        <details><summary>¿Qué pasa si llueve?</summary><p>REEMPLAZAR: si hay reprogramación, devolución o espacios cubiertos disponibles.</p></details>
+        <details><summary>¿Se puede hacer fuego o asado?</summary><p>REEMPLAZAR: sectores habilitados, si se vende leña, restricciones por temporada de incendios.</p></details>
+        <details><summary>¿Hay wifi en el predio?</summary><p>REEMPLAZAR: cobertura real, en qué sectores llega.</p></details>
+        <details><summary>¿Puedo entrar solo a comer sin alojarme?</summary><p>REEMPLAZAR: si el acceso al restaurante es libre o tiene entrada al predio.</p></details>
+        <details><summary>¿Cómo pago la seña?</summary><p>REEMPLAZAR: medios aceptados y qué porcentaje se pide por adelantado.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <h4>Cirse Club de Lago</h4>
+        <p style="max-width:38ch">Camping, cabañas, glamping, motorhome, gastronomía y marina sobre la costa del Nahuel Huapi.</p>
+        <p style="margin-top:.9rem;font-size:.84rem">Av. Ezequiel Bustillo Km 14.500<br>San Carlos de Bariloche, Río Negro</p>
+      </div>
+      <div>
+        <h4>El club</h4>
+        <ul>
+          <li><a href="#alojamiento">Alojamiento</a></li>
+          <li><a href="#reservas">Reservá</a></li>
+          <li><a href="#gastronomia">Gastronomía</a></li>
+          <li><a href="#eventos">Eventos</a></li>
+          <li><a href="#tour360">Tour 360°</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Náutica</h4>
+        <ul>
+          <li><a href="marina.html">Marina y amarras</a></li>
+          <li><a href="marina.html#servicios">Guardería náutica</a></li>
+          <li><a href="marina.html#consulta">Consultar disponibilidad</a></li>
+          <li style="margin-top:.9rem"><a href="#" data-wa><b data-wa-num>+54 9 ...</b></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="anio"></span> Cirse Club de Lago</span>
+      <span>Sitio desarrollado por El Faro Digital</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" data-wa class="wa-flotante" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.966-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- ══════════ JSON-LD ══════════ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LodgingBusiness",
+  "name":"Cirse Club de Lago",
+  "description":"Camping, cabañas, glamping y motorhome sobre la costa del lago Nahuel Huapi, con gastronomía, muelle propio y marina.",
+  "address":{"@type":"PostalAddress","streetAddress":"Av. Ezequiel Bustillo Km 14.500","addressLocality":"San Carlos de Bariloche","addressRegion":"Río Negro","addressCountry":"AR"},
+  "geo":{"@type":"GeoCoordinates","latitude":"-41.093","longitude":"-71.455"},
+  "telephone":"REEMPLAZAR",
+  "url":"https://REEMPLAZAR-dominio.com/",
+  "amenityFeature":[
+    {"@type":"LocationFeatureSpecification","name":"Frente al lago","value":true},
+    {"@type":"LocationFeatureSpecification","name":"Restaurante","value":true},
+    {"@type":"LocationFeatureSpecification","name":"Muelle","value":true},
+    {"@type":"LocationFeatureSpecification","name":"Marina y amarras","value":true},
+    {"@type":"LocationFeatureSpecification","name":"Sector motorhome","value":true}
+  ]
+}
+</script>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════════
+   CONFIG — ÚNICO lugar con datos del cliente.
+   Links de pago (Ruta A.5): panel de Mercado Pago → Cobrar → Link de pago →
+   monto FIJO de la seña de cada servicio → pegar la URL en linkPago.
+   Si linkPago queda vacío, el botón cae solo en "Coordinar seña por WhatsApp".
+   ════════════════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  nombreNegocio:'Cirse Club de Lago',
+  whatsapp:'5492944669898',
+  whatsappVisible:'+54 9 2944 66-9898',
+  moneda:'ARS',
+  locale:'es-AR',
+  pais:'AR',
+  servicios:[
+    {id:'camping',   corto:'Camping',   nombre:'Camping',            detalle:'Parcela con parrilla', precio:'Desde $— p/p (REEMPLAZAR)',    calKey:'camping',   linkPago:''},
+    {id:'cabana',    corto:'Cabaña',    nombre:'Cabaña',             detalle:'Unidad completa',      precio:'Desde $— /noche (REEMPLAZAR)', calKey:'cabanas',   linkPago:''},
+    {id:'glamping',  corto:'Glamping',  nombre:'Glamping (domo)',    detalle:'Domo equipado',        precio:'Desde $— /noche (REEMPLAZAR)', calKey:'glamping',  linkPago:''},
+    {id:'motorhome', corto:'Motorhome', nombre:'Sector motorhome',   detalle:'Por vehículo',         precio:'Desde $— /noche (REEMPLAZAR)', calKey:'motorhome', linkPago:''}
+  ],
+  /* Disponibilidad DIFERENCIADA por servicio. 'general' bloquea para todos.
+     Paquete base: se edita a mano acá. Crecimiento/Full: reemplazar por fetch()
+     de un JSON del repo o de una Google Sheet publicada como CSV. */
+  fechasBloqueadas:{
+    general:[],
+    camping:['2026-08-08','2026-08-09'],
+    cabanas:['2026-08-01','2026-08-02','2026-08-03','2026-08-15','2026-08-16'],
+    glamping:['2026-08-15','2026-08-16','2026-08-22'],
+    motorhome:[]
+  }
+};
+const REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const HOVER = !!(window.matchMedia && window.matchMedia('(hover:hover)').matches);
+const waUrl = t => `https://wa.me/${CONFIG.whatsapp}?text=${t}`;
+document.getElementById('anio').textContent = new Date().getFullYear();
+
+/* ---------- HEADER + MENÚ ---------- */
+const header = document.getElementById('header');
+window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 60));
+const nav = document.getElementById('nav');
+document.getElementById('menuToggle').addEventListener('click', ()=> nav.classList.toggle('abierto'));
+document.querySelectorAll('#nav a').forEach(a=> a.addEventListener('click', ()=> nav.classList.remove('abierto')));
+
+/* ---------- H1: HERO ROTATIVO ---------- */
+const heroSlides = document.querySelectorAll('.hero .hero-slide');
+const heroDotsWrap = document.getElementById('heroDots');
+heroSlides.forEach((_,i)=>{
+  const d = document.createElement('span');
+  if(i===0) d.classList.add('activo');
+  d.addEventListener('click', ()=> irASlide(i));
+  heroDotsWrap.appendChild(d);
+});
+let heroIndex = 0;
+function irASlide(i){
+  heroSlides[heroIndex].classList.remove('activa');
+  heroDotsWrap.children[heroIndex].classList.remove('activo');
+  heroIndex = i;
+  heroSlides[heroIndex].classList.add('activa');
+  heroDotsWrap.children[heroIndex].classList.add('activo');
+}
+if(!REDUCE) setInterval(()=> irASlide((heroIndex+1) % heroSlides.length), 5200);
+
+/* ---------- SELECTOR DE SERVICIO ---------- */
+const selectorServicio = document.getElementById('selectorServicio');
+const resServicio = document.getElementById('resServicio');
+const resPrecio = document.getElementById('resPrecio');
+let servicioActivo = CONFIG.servicios[0];
+CONFIG.servicios.forEach((s,i)=>{
+  const b = document.createElement('button');
+  b.className = 'chip' + (i===0 ? ' activo' : '');
+  b.type = 'button';
+  b.textContent = s.corto;
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('activo'));
+    b.classList.add('activo');
+    servicioActivo = s;
+    resServicio.textContent = s.nombre;
+    resPrecio.textContent = s.precio;
+    fechaSeleccionada = null;
+    document.getElementById('resFecha').textContent = 'Por elegir';
+    actualizarBtnPago();
+    pintarCalendario();
+  });
+  selectorServicio.appendChild(b);
+});
+resServicio.textContent = servicioActivo.nombre;
+resPrecio.textContent = servicioActivo.precio;
+const bloqueadasActivas = ()=> (CONFIG.fechasBloqueadas.general||[]).concat(CONFIG.fechasBloqueadas[servicioActivo.calKey]||[]);
+
+/* ---------- CALENDARIO DIFERENCIADO ---------- */
+const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const hoy = new Date();
+let calAno = hoy.getFullYear(), calMesIdx = hoy.getMonth();
+const calMesEl = document.getElementById('calMes'), calGrid = document.getElementById('calGrid');
+let fechaSeleccionada = null;
+const pad = n => n<10 ? '0'+n : n;
+function pintarCalendario(){
+  calMesEl.textContent = `${meses[calMesIdx]} ${calAno}`;
+  calGrid.innerHTML = '';
+  let offset = new Date(calAno, calMesIdx, 1).getDay();
+  offset = offset===0 ? 6 : offset-1;
+  const diasEnMes = new Date(calAno, calMesIdx+1, 0).getDate();
+  for(let i=0;i<offset;i++){
+    const v = document.createElement('div'); v.className='cal-dia vacio'; calGrid.appendChild(v);
+  }
+  for(let d=1; d<=diasEnMes; d++){
+    const celda = document.createElement('div');
+    const iso = `${calAno}-${pad(calMesIdx+1)}-${pad(d)}`;
+    const esBloqueada = bloqueadasActivas().includes(iso);
+    const esPasado = new Date(calAno, calMesIdx, d) < new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+    celda.textContent = d;
+    celda.className = 'cal-dia ' + (esBloqueada || esPasado ? 'bloqueado' : 'libre');
+    if(iso === `${hoy.getFullYear()}-${pad(hoy.getMonth()+1)}-${pad(hoy.getDate())}`) celda.classList.add('hoy');
+    if(iso === fechaSeleccionada) celda.classList.add('seleccionado');
+    if(!esBloqueada && !esPasado){
+      celda.addEventListener('click', ()=>{
+        fechaSeleccionada = iso;
+        document.getElementById('resFecha').textContent =
+          new Intl.DateTimeFormat(CONFIG.locale,{day:'numeric',month:'long',year:'numeric'}).format(new Date(calAno,calMesIdx,d));
+        document.getElementById('resError').classList.remove('visible');
+        pintarCalendario();
+      });
+    }
+    calGrid.appendChild(celda);
+  }
+}
+pintarCalendario();
+document.getElementById('calPrev').addEventListener('click', ()=>{ calMesIdx--; if(calMesIdx<0){calMesIdx=11;calAno--;} pintarCalendario(); });
+document.getElementById('calNext').addEventListener('click', ()=>{ calMesIdx++; if(calMesIdx>11){calMesIdx=0;calAno++;} pintarCalendario(); });
+
+/* ---------- E1: VALIDACIÓN QUE ENSEÑA ---------- */
+function validarCampo(wrapId, inputId){
+  const wrap = document.getElementById(wrapId);
+  const val = document.getElementById(inputId).value.trim();
+  wrap.classList.toggle('error', !val);
+  return !!val;
+}
+['rNombre','rPersonas','rTelefono','evNombre','evPersonas','evTel'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', ()=> el.closest('.form-campo').classList.remove('error'));
+});
+
+/* ---------- RESUMEN + ENVÍO (E2: confirmación con peso) ---------- */
+const rPersonas = document.getElementById('rPersonas');
+rPersonas.addEventListener('input', ()=> document.getElementById('resPersonas').textContent = rPersonas.value || '—');
+
+function armarMensaje(){
+  const v = id => document.getElementById(id).value.trim();
+  return encodeURIComponent(
+    `Hola! Quiero reservar en ${CONFIG.nombreNegocio}\n\n` +
+    `Servicio: ${resServicio.textContent}\n` +
+    `Fecha: ${document.getElementById('resFecha').textContent}\n` +
+    `Personas: ${v('rPersonas') || 'sin especificar'}\n` +
+    `Nombre: ${v('rNombre') || 'Sin nombre'}\n` +
+    `Teléfono: ${v('rTelefono') || 'sin teléfono'}\n` +
+    `Comentario: ${v('rComentario') || 'Sin comentarios'}`
+  );
+}
+const resError = document.getElementById('resError'), resOk = document.getElementById('resOk');
+document.getElementById('btnReservar').addEventListener('click', e=>{
+  e.preventDefault();
+  const okN = validarCampo('c-nombre','rNombre');
+  const okP = validarCampo('c-personas','rPersonas');
+  const okT = validarCampo('c-tel','rTelefono');
+  if(!fechaSeleccionada){
+    resError.classList.add('visible');
+    document.querySelector('.calendario').scrollIntoView({behavior: REDUCE?'auto':'smooth', block:'center'});
+    return;
+  }
+  if(!(okN && okP && okT)){
+    document.querySelector('.form-campo.error').scrollIntoView({behavior: REDUCE?'auto':'smooth', block:'center'});
+    return;
+  }
+  resError.classList.remove('visible');
+  resOk.classList.add('visible');
+  window.open(waUrl(armarMensaje()), '_blank');
+});
+
+/* ---------- PAGO DE SEÑA (Ruta A.5) ---------- */
+const btnPagar = document.getElementById('btnPagar');
+function actualizarBtnPago(){
+  if(servicioActivo.linkPago){
+    btnPagar.href = servicioActivo.linkPago; btnPagar.target='_blank'; btnPagar.rel='noopener';
+    btnPagar.dataset.modo='link';
+    btnPagar.querySelector('span').textContent = 'Pagar seña en línea';
+  } else {
+    btnPagar.href='#'; btnPagar.removeAttribute('target'); btnPagar.dataset.modo='wa';
+    btnPagar.querySelector('span').textContent = 'Coordinar seña por WhatsApp';
+  }
+}
+btnPagar.addEventListener('click', e=>{
+  if(btnPagar.dataset.modo === 'wa'){
+    e.preventDefault();
+    window.open(waUrl(armarMensaje() + encodeURIComponent('\n\nQuiero coordinar el pago de la seña.')), '_blank');
+  }
+});
+actualizarBtnPago();
+
+/* ---------- FORMULARIO DE EVENTOS ---------- */
+document.getElementById('btnEvento').addEventListener('click', e=>{
+  e.preventDefault();
+  const okN = validarCampo('c-evNombre','evNombre');
+  const okP = validarCampo('c-evPersonas','evPersonas');
+  const okT = validarCampo('c-evTel','evTel');
+  if(!(okN && okP && okT)){
+    document.querySelector('#eventos .form-campo.error').scrollIntoView({behavior: REDUCE?'auto':'smooth', block:'center'});
+    return;
+  }
+  const v = id => document.getElementById(id).value.trim();
+  const msg = encodeURIComponent(
+    `Hola! Quiero consultar por un evento en ${CONFIG.nombreNegocio}\n\n` +
+    `Tipo: ${document.getElementById('evTipo').value}\n` +
+    `Personas aprox.: ${v('evPersonas')}\n` +
+    `Fecha tentativa: ${v('evFecha') || 'a definir'}\n` +
+    `Nombre: ${v('evNombre')}\n` +
+    `Teléfono: ${v('evTel')}`
+  );
+  document.getElementById('evOk').classList.add('visible');
+  window.open(waUrl(msg), '_blank');
+});
+
+/* ---------- B1: BOTÓN MAGNÉTICO ---------- */
+if(!REDUCE && HOVER){
+  document.querySelectorAll('[data-cp-magnetico]').forEach(el=>{
+    el.addEventListener('mousemove', ev=>{
+      const r = el.getBoundingClientRect();
+      const x = (ev.clientX - r.left - r.width/2) * .16;
+      const y = (ev.clientY - r.top - r.height/2) * .16;
+      el.style.transform = `translate(${x}px,${y}px)`;
+    });
+    el.addEventListener('mouseleave', ()=> el.style.transform = '');
+  });
+}
+
+/* ---------- B2: TILT 3D ---------- */
+if(!REDUCE && HOVER){
+  document.querySelectorAll('[data-cp-tilt]').forEach(el=>{
+    el.addEventListener('mousemove', ev=>{
+      const r = el.getBoundingClientRect();
+      const rx = ((ev.clientY - r.top)/r.height - .5) * -6;
+      const ry = ((ev.clientX - r.left)/r.width - .5) * 6;
+      el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    });
+    el.addEventListener('mouseleave', ()=> el.style.transform = '');
+  });
+}
+
+/* ---------- B3: RESPLANDOR DE CURSOR ---------- */
+const glow = document.getElementById('glow');
+const seccionReservas = document.querySelector('.reservas');
+if(glow && !REDUCE && HOVER){
+  seccionReservas.addEventListener('mousemove', ev=>{
+    const r = seccionReservas.getBoundingClientRect();
+    glow.style.left = (ev.clientX - r.left) + 'px';
+    glow.style.top  = (ev.clientY - r.top) + 'px';
+    glow.style.opacity = 1;
+  });
+  seccionReservas.addEventListener('mouseleave', ()=> glow.style.opacity = 0);
+}
+
+/* ---------- WHATSAPP CENTRALIZADO ---------- */
+document.querySelectorAll('[data-wa]').forEach(a=>{
+  a.href = waUrl(encodeURIComponent(`Hola! Quiero consultar por ${CONFIG.nombreNegocio}.`));
+  a.target = '_blank'; a.rel = 'noopener';
+});
+document.querySelectorAll('[data-wa-num]').forEach(el=> el.textContent = CONFIG.whatsappVisible);
+</script>
+</body>
+</html>
