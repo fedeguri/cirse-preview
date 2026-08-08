@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════════════════
+  MERCAT DEL CIRSE — página interna del Club (mismo dominio, ver index.html)
+  Vertical Turismo · Firma "Horizonte y Destello" · Paleta agua/costa (heredada del Club)
+  ═══════════════════════════════════════════════════════════════════════════════
+
+  ANTES DE MANDAR:
+  1. DOMINIO: mismo REEMPLAZAR que index.html — se resuelve cuando esté confirmado.
+  2. MENÚ (CONFIG.menuSemana): 8-ago-2026 — Fede pidió enriquecer la página con fotos
+     reales mientras no existe la carta real. Los 7 platos y precios de abajo son
+     PROPUESTA/EJEMPLO inventada a pedido explícito de Fede para mostrarle algo lindo a
+     Facundo — NO son la carta real. Las fotos SÍ son reales (Cloudinary del cliente).
+     Reemplazar nombre+precio de cada plato en cuanto la socia de Facundo confirme la
+     carta real; dejar la foto si el plato real coincide con lo que muestra, si no, cambiarla.
+  3. TRAGOS DEL MERCAT (CONFIG.tragos) — sección nueva 8-ago-2026, mismo motivo: nombres
+     de tragos y descripciones son PROPUESTA inventada (fotos reales). Validar con Facundo.
+  4. NOVEDADES / EVENTOS DEL MERCAT / DESCUENTOS: CONFIG.novedades — títulos y textos
+     también son PROPUESTA inventada (8-ago-2026, fotos reales). Mismo patrón que
+     PROXIMOS_EVENTOS en index.html. Migrar a Google Sheet + PapaParse (patrón de Áurea)
+     en cuanto exista el Google Form de intake — hoy todavía no existe (ver Ficha de
+     Tareas, sección 6, pendiente 🔴).
+  5. ASÍ SE VIVE EL MERCAT: sección nueva 8-ago-2026, grilla estática (no Sheet, es
+     fotografía de marca curada) — mismo criterio que "Así se vive" del Club.
+  6. RESEÑAS: CONFIG.reseñas — el TEXTO sigue siendo placeholder sin tocar (nunca inventar
+     reseñas reales, a diferencia de la carta/tragos/novedades de arriba). Solo se
+     actualizaron las fotos a imágenes propias del Mercat. Facundo/Fede pegan a mano las
+     frases curadas cuando estén (2-3 veces al año, sin widget en vivo).
+  7. WHATSAPP: usa el mismo número que el Club por ahora (compartido). Si Facundo confirma
+     que la socia de gastronomía/eventos usa otro número, actualizar CONFIG.whatsapp acá
+     sin tocar el de index.html — son independientes a propósito. Reserva simple por
+     WhatsApp prellenado (sin calendario) — confirmado por Fede que así alcanza.
+  8. LOGO: se sumó el isologo real "Mercat del Cirse" (fondo blanco) en el header, donde
+     el fondo de la página también es blanco/crema y no se nota el recorte. Para usarlo
+     sobre fotos o fondos oscuros hace falta la versión con fondo transparente — pedirle
+     a Fede si la tiene en PNG/SVG.
+  9. FOTOS: todas migradas a Cloudinary con transformación f_auto,q_auto (peso optimizado
+     automático), cero base64. Reutiliza fotos reales del Mercat que subió Fede el 8-ago-2026.
+  10. Coordinar con la socia de Facundo (gastronomía/eventos) antes de cerrar el detalle
+      fino de esta página — hoy es un avance para mostrar, no la versión cerrada.
+-->
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercat del Cirse — Gastronomía frente al Nahuel Huapi | Cirse Club de Lago</title>
+<meta name="description" content="Mercat del Cirse: mercado de experiencias a la orilla del lago Nahuel Huapi. Menú del día, reserva de mesa por WhatsApp y la agenda de la temporada. Bariloche, Bustillo Km 14.500.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mercat del Cirse — gastronomía frente al Nahuel Huapi">
+<meta property="og:description" content="Mercado de experiencias a la orilla del lago. Menú del día, música y atardeceres en Cirse Club de Lago.">
+<meta property="og:url" content="https://REEMPLAZAR-dominio.com/mercat.html">
+<meta property="og:image" content="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160276/resto_portada_noche_luces_mercat_del_cirse_oexgzo.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://REEMPLAZAR-dominio.com/mercat.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%231B4B5A'/%3E%3Cpath d='M6 20c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-1.5 5 0' stroke='%23E8A33D' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='11' r='3.2' fill='%23F0E6D2'/%3E%3C/svg%3E">
+
+<!-- ══ ANALYTICS — descomentar y pegar IDs reales al entregar (mismo GA4 que el Club) ══
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-REEMPLAZAR"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-REEMPLAZAR');</script>
+   ══ fin analytics ══ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lago:#1B4B5A; --lago-osc:#0F2E38; --agua:#2E8FA3; --agua-clara:#7FBECC;
+  --arena:#F0E6D2; --arena-osc:#DFCFAE; --destello:#E8A33D;
+  --carbon:#1C2225; --blanco:#FFFCF6;
+  --ocaso-1:#B15369; --ocaso-2:#F67763; --ocaso-3:#F4D289; --pino:#257264;
+  --display:'Fraunces',serif; --texto:'Work Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --radio:6px; --sombra:0 20px 45px -20px rgba(15,46,56,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--texto);color:var(--carbon);background:var(--blanco);overflow-x:hidden;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.08}
+section{padding:5.5rem 0}
+@media(max-width:720px){section{padding:3.4rem 0}}
+.container{width:min(1180px,92%);margin-inline:auto}
+
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--agua);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--agua)}
+.titulo-seccion{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:1rem;color:var(--lago-osc)}
+.sub-seccion{max-width:640px;color:#55605f;font-size:1.05rem;margin-bottom:2.6rem}
+
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--texto);font-weight:600;font-size:.92rem;padding:.95rem 1.7rem;border-radius:3px;border:1.5px solid transparent;cursor:pointer;transition:.25s ease;white-space:nowrap}
+.btn-primario{background:var(--destello);color:var(--lago-osc)}
+.btn-primario:hover{background:#f2b558;transform:translateY(-2px)}
+.btn-secundario{border-color:rgba(255,252,246,.6);color:var(--blanco)}
+.btn-secundario:hover{background:rgba(255,255,255,.14)}
+.btn-outline{border-color:var(--lago);color:var(--lago)}
+.btn-outline:hover{background:var(--lago);color:var(--blanco)}
+
+.franja-ocaso{position:fixed;top:0;left:0;right:0;height:4px;z-index:1001;background:linear-gradient(90deg,var(--ocaso-1),var(--ocaso-2),var(--ocaso-3),var(--pino))}
+
+/* ---------- HEADER (idéntico al Club, para continuidad de marca) ---------- */
+header{position:fixed;top:4px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4%;transition:.35s ease;background:var(--blanco);box-shadow:0 2px 20px rgba(15,46,56,.12)}
+.logo-real{display:flex;align-items:center;gap:.85rem;order:2;flex-shrink:0}
+.logo-real img{height:38px;width:auto;display:block}
+.logo-mark{border-radius:50%}
+.logo-mercat{height:52px;filter:contrast(1.35) brightness(.82)}
+@media(max-width:1080px){.logo-mercat{height:44px}}
+.logo-divisor{width:1px;height:30px;background:var(--arena-osc)}
+#nav{order:1}
+nav ul{display:flex;gap:1.7rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+nav a{color:var(--carbon);font-size:.96rem;font-weight:500;position:relative}
+nav a::after{content:"";position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:var(--destello);transition:.25s}
+nav a:hover::after{width:100%}
+.nav-actual{color:var(--destello)!important;font-weight:700}
+.nav-marina{border:1.4px solid var(--lago);padding:.45rem 1rem;border-radius:3px;color:var(--lago)!important}
+.nav-marina::after{display:none}
+.menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.menu-toggle span{width:26px;height:2px;background:var(--carbon);transition:.3s}
+@media(max-width:1080px){
+  .menu-toggle{display:flex}
+  nav{position:fixed;inset:0 0 0 auto;width:min(78%,320px);background:var(--lago-osc);transform:translateX(100%);transition:.35s;display:flex;align-items:center;justify-content:center}
+  nav.abierto{transform:translateX(0)}
+  nav ul{flex-direction:column;gap:1.6rem}
+  nav a,.nav-actual{color:var(--blanco)!important;font-size:1.05rem}
+}
+@media(max-width:400px){
+  .logo-divisor{display:none}
+  .logo-mercat{height:36px}
+}
+
+/* ---------- HERO (mismo patrón H1 Ken Burns del Club) ---------- */
+.hero{position:relative;min-height:74svh;display:flex;align-items:center;overflow:hidden;color:var(--blanco);margin-top:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.hero-slide.activa{opacity:1}
+.hero-slide.activa img{animation:kb 9s ease-out forwards}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-slide img{width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,46,56,.82) 0%,rgba(15,46,56,.5) 45%,rgba(15,46,56,.22) 100%)}
+.hero-inner{position:relative;z-index:2;width:min(1180px,92%);margin-inline:auto;padding:8rem 0 3.4rem}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.8rem);max-width:18ch;margin-bottom:1rem}
+.hero p.bajada{max-width:56ch;font-size:1.08rem;color:rgba(255,252,246,.86);margin-bottom:1.8rem}
+.hero-dots{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);display:flex;gap:.55rem;z-index:3}
+.hero-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,252,246,.35);cursor:pointer;transition:.25s}
+.hero-dots span.activo{background:var(--destello);width:22px;border-radius:4px}
+.hero-migas{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,252,246,.7);margin-bottom:1rem;display:block}
+.hero-migas a{text-decoration:underline}
+.hero-marca{position:absolute;top:2rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:.75rem;background:var(--blanco);border-radius:60px;padding:.55rem 1.4rem .55rem .55rem;box-shadow:0 16px 38px -12px rgba(0,0,0,.55)}
+.hero-marca-cirse{height:36px;width:36px;border-radius:50%;object-fit:cover;display:block;flex-shrink:0}
+.hero-marca-divisor{width:1px;height:28px;background:var(--arena-osc);flex-shrink:0}
+.hero-marca-mercat{height:32px;width:auto;display:block}
+@media(min-width:641px){
+  .hero-marca{top:2.6rem;padding:.75rem 1.9rem .75rem .75rem;gap:1rem}
+  .hero-marca-cirse{height:48px;width:48px}
+  .hero-marca-divisor{height:36px}
+  .hero-marca-mercat{height:44px}
+}
+
+/* ---------- HORARIO DESTACADO ---------- */
+.horario-banner{background:var(--lago-osc);color:var(--blanco);padding:1.6rem 0}
+.horario-banner .container{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.2rem}
+.horario-dato{display:flex;align-items:center;gap:1rem}
+.horario-dato b{font-family:var(--display);font-size:1.6rem;color:var(--destello);white-space:nowrap}
+.horario-dato span{font-size:.92rem;color:rgba(255,252,246,.78);display:block;max-width:44ch}
+
+/* ---------- CARRUSEL EDITORIAL H2 (extiende el H1 hero-rotativo) ----------
+   Tarjeta full-bleed con foto + Ken Burns lento + texto superpuesto.
+   Navegación manual (flechas + swipe + contador), sin autoplay: es contenido
+   para leer, no un fondo decorativo. Un mismo componente sirve para el menú
+   semanal y para cada stream autogestivo (una fila del Sheet = una hoja). */
+.carrusel-ed{position:relative;border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);aspect-ratio:16/9;max-height:520px}
+@media(max-width:640px){.carrusel-ed{aspect-ratio:4/5;max-height:none}}
+.ced-hoja{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.ced-hoja.activa{opacity:1;pointer-events:auto}
+.ced-hoja img{width:100%;height:100%;object-fit:cover;animation:cedZoom 16s ease-in-out infinite alternate}
+.ced-hoja.activa img{animation-play-state:running}
+.ced-hoja:not(.activa) img{animation-play-state:paused}
+@keyframes cedZoom{from{transform:scale(1)}to{transform:scale(1.05)}}
+.ced-hoja::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,46,56,.88) 0%,rgba(15,46,56,.35) 55%,rgba(15,46,56,.05) 100%)}
+.ced-texto{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:1.8rem 2rem 1.6rem;color:var(--blanco)}
+.ced-tipo{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--destello);display:block;margin-bottom:.4rem}
+.ced-texto h3{font-size:clamp(1.25rem,2.6vw,1.7rem);margin-bottom:.35rem}
+.ced-texto p{font-size:.94rem;color:rgba(255,252,246,.86);max-width:56ch}
+.ced-precio{font-family:var(--display);font-size:1.3rem;color:var(--destello);margin-top:.5rem;display:block}
+.ced-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:42px;border-radius:50%;background:rgba(15,46,56,.55);border:1px solid rgba(255,252,246,.35);color:var(--blanco);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:.2s;backdrop-filter:blur(3px)}
+.ced-nav:hover{background:var(--destello);color:var(--lago-osc);border-color:var(--destello)}
+.ced-prev{left:1rem}
+.ced-next{right:1rem}
+@media(max-width:520px){.ced-nav{width:36px;height:36px;font-size:1rem}}
+.ced-contador{position:absolute;top:1.1rem;right:1.2rem;z-index:3;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--blanco);background:rgba(15,46,56,.55);padding:.3rem .65rem;border-radius:3px;backdrop-filter:blur(3px)}
+.ced-dots{position:absolute;top:1.2rem;left:1.2rem;z-index:3;display:flex;gap:.4rem}
+.ced-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,252,246,.4);cursor:pointer;transition:.25s}
+.ced-dots span.activo{background:var(--destello);width:16px;border-radius:3px}
+.ced-vacio{padding:3rem 1.4rem;text-align:center;border:1.5px dashed var(--arena-osc);border-radius:var(--radio);color:#55605f}
+
+/* ---------- ASÍ SE VIVE (grilla estática de fotografía de marca) ---------- */
+.asi-vive-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:.9rem}
+.av-item{position:relative;border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);display:block}
+.av-item img{width:100%;height:100%;object-fit:cover;transition:.4s ease}
+.av-item:hover img{transform:scale(1.06)}
+.av-grande{grid-row:span 2;grid-column:span 2}
+.av-tag{position:absolute;left:.7rem;bottom:.6rem;z-index:2;font-family:var(--mono);font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;color:var(--blanco);background:rgba(15,46,56,.6);padding:.32rem .65rem;border-radius:3px;backdrop-filter:blur(2px)}
+@media(max-width:820px){
+  .asi-vive-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .av-grande{grid-column:span 2;grid-row:span 1;height:220px}
+}
+
+/* ---------- BADGE DE RESEÑAS ---------- */
+.badge-reviews{display:inline-flex;align-items:center;gap:.8rem;background:var(--arena);border:1px solid var(--arena-osc);border-radius:var(--radio);padding:.9rem 1.3rem;margin-bottom:2rem}
+.badge-reviews b{font-family:var(--display);font-size:1.5rem;color:var(--destello)}
+.badge-reviews span{font-size:.86rem;color:#55605f;display:block}
+
+/* ---------- RESERVA DE MESA (simple, sin calendario) ---------- */
+.reserva-mesa{background:linear-gradient(160deg,var(--lago) 0%,var(--lago-osc) 100%);color:var(--blanco)}
+.reserva-mesa .titulo-seccion{color:var(--blanco)}
+.reserva-mesa .eyebrow{color:var(--destello)}
+.rm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem}
+@media(max-width:820px){.rm-grid{grid-template-columns:1fr}}
+.form-fila{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:520px){.form-fila{grid-template-columns:1fr}}
+.form-campo{margin-top:.85rem}
+.form-campo label{display:block;font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,252,246,.6);margin-bottom:.35rem}
+.form-campo input,.form-campo textarea,.form-campo select{width:100%;background:rgba(255,252,246,.07);border:1.2px solid rgba(255,252,246,.2);border-radius:3px;padding:.7rem .85rem;color:var(--blanco);font-family:var(--texto);font-size:.92rem;transition:.2s}
+.form-campo input:focus,.form-campo textarea:focus,.form-campo select:focus{outline:none;border-color:var(--destello);background:rgba(255,252,246,.11)}
+.form-campo input::placeholder,.form-campo textarea::placeholder{color:rgba(255,252,246,.35)}
+.form-campo.error input{border-color:#e08d6f}
+.form-campo .pista{display:none;font-size:.76rem;color:#f0b39a;margin-top:.3rem}
+.form-campo.error .pista{display:block}
+.res-ok{display:none;font-size:.86rem;color:var(--destello);margin-top:.9rem;border-left:2px solid var(--destello);padding-left:.7rem}
+.res-ok.visible{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.rm-nota{font-size:.86rem;color:rgba(255,252,246,.68);line-height:1.6}
+.rm-nota b{color:var(--destello)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--carbon);color:rgba(255,252,246,.72);padding:3.4rem 0 2rem;font-size:.9rem}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2rem;margin-bottom:2.2rem}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr}}
+footer h4{color:var(--blanco);font-size:1rem;margin-bottom:.8rem}
+footer li{padding:.22rem 0}
+footer a:hover{color:var(--destello)}
+.foot-bottom{border-top:1px solid rgba(255,252,246,.12);padding-top:1.3rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.78rem;color:rgba(255,252,246,.45)}
+
+/* ---------- WHATSAPP FLOTANTE ---------- */
+.wa-flotante{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.24);transition:.25s}
+.wa-flotante:hover{transform:scale(1.07)}
+.wa-flotante svg{width:28px;height:28px;fill:#fff}
+</style>
+</head>
+<body>
+
+<div class="franja-ocaso" aria-hidden="true"></div>
+<header id="header" class="scrolled">
+  <nav id="nav">
+    <ul>
+      <li><a href="index.html">Volver al Club</a></li>
+      <li><a href="index.html#alojamiento">Alojamiento</a></li>
+      <li><a href="#menu" class="nav-actual">Mercat del Cirse</a></li>
+      <li><a href="index.html#eventos">Eventos</a></li>
+      <li><a href="index.html#ubicacion">Cómo llegar</a></li>
+      <li><a href="https://marina-cirse.vercel.app/" class="nav-marina">Marina</a></li>
+    </ul>
+  </nav>
+  <a href="index.html" class="logo-real"><img class="logo-mark" src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1785211604/logo-cirse_vwzjxi.png" alt="Cirse Club de Lago"><span class="logo-divisor" aria-hidden="true"></span><img class="logo-mercat" src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786161987/logo_mercat_transp_voojva.png" alt="Mercat del Cirse"></a>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="inicio">
+  <div class="hero-slide activa"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160276/resto_portada_noche_luces_mercat_del_cirse_oexgzo.jpg" alt="La carpa del Mercat del Cirse iluminada de noche"></div>
+  <div class="hero-slide"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160102/resto_interior_sillones_r5f1r2.jpg" alt="El salón del Mercat por dentro, luces cálidas y sillones"></div>
+  <div class="hero-slide"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160320/gastro-burguer_zxr3mm.jpg" alt="Hamburguesa del Mercat con el lago de fondo"></div>
+  <div class="hero-slide"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160311/resto_sillon_dia_jjhqrq.jpg" alt="El living exterior del Mercat de día, sobre la costa"></div>
+  <div class="hero-slide"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160324/resto_brindis_lago_mercat_del_cirse_pmh2yl.jpg" alt="Brindis con tragos de autor frente al lago Nahuel Huapi"></div>
+  <div class="hero-slide"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160332/resto_foto_evento_equilibrista_mercat_del_cirse_u7ugke.jpg" alt="Atardecer y show en vivo en un evento del Mercat del Cirse"></div>
+
+  <div class="hero-marca">
+    <img class="hero-marca-cirse" src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1785211604/logo-cirse_vwzjxi.png" alt="Cirse Club de Lago">
+    <span class="hero-marca-divisor" aria-hidden="true"></span>
+    <img class="hero-marca-mercat" src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786161987/logo_mercat_transp_voojva.png" alt="Mercat del Cirse">
+  </div>
+
+  <div class="hero-inner">
+    <span class="hero-migas"><a href="index.html">Cirse Club de Lago</a> · Mercat</span>
+    <h1>Un mercado de experiencias a la orilla del lago.</h1>
+    <p class="bajada">Platos a los fuegos, tragos de autor y música al caer la tarde — en tierra de la Diosa Cirse. Abierto también para quien no se aloja en el predio.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="#reserva" class="btn btn-primario">Reservar mesa</a>
+      <a href="#menu" class="btn btn-secundario">Ver el menú del día</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<!-- ══════════ HORARIO DESTACADO ══════════ -->
+<div class="horario-banner">
+  <div class="container">
+    <div class="horario-dato">
+      <b>Lun a Dom · 12 a 23h</b>
+      <span>En temporada (diciembre a marzo). El resto del año, el espacio funciona para <a href="index.html#eventos" style="text-decoration:underline;color:var(--destello)">eventos privados</a>.</span>
+    </div>
+    <a href="#reserva" class="btn btn-outline" style="border-color:var(--destello);color:var(--destello)">Reservar mesa</a>
+  </div>
+</div>
+
+<!-- ══════════ MENÚ DEL DÍA (carrusel editorial H2) ══════════ -->
+<section id="menu">
+  <div class="container">
+    <div class="eyebrow">Carta de la semana</div>
+    <h2 class="titulo-seccion">El menú del día, día por día</h2>
+    <p class="sub-seccion">Se actualiza solo — cada hoja de este carrusel es una fila de la planilla que carga el equipo del Mercat.</p>
+    <div class="carrusel-ed" id="carruselMenu"></div>
+  </div>
+</section>
+
+<!-- ══════════ TRAGOS DEL MERCAT (carrusel editorial H2, 4ta reutilización) ══════════ -->
+<section style="background:var(--arena)">
+  <div class="container">
+    <div class="eyebrow">Barra del Mercat</div>
+    <h2 class="titulo-seccion">Tragos de autor, mirando al lago</h2>
+    <p class="sub-seccion">Coctelería con productos patagónicos — la propuesta de bar es tan protagonista como la carta.</p>
+    <div class="carrusel-ed" id="carruselTragos"></div>
+  </div>
+</section>
+
+<!-- ══════════ NOVEDADES · EVENTOS DEL MERCAT · DESCUENTOS (carrusel editorial H2) ══════════ -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Autogestivo</div>
+    <h2 class="titulo-seccion">Novedades, noches especiales y descuentos</h2>
+    <p class="sub-seccion">Facundo y su socia cargan esto solos en una planilla — sin depender de El Faro para publicar una promo o anunciar la próxima noche de DJ.</p>
+    <div class="carrusel-ed" id="carruselNovedades"></div>
+  </div>
+</section>
+
+<!-- ══════════ ASÍ SE VIVE EL MERCAT (grilla estática, fotografía de marca — no Sheet) ══════════ -->
+<section style="background:var(--arena)">
+  <div class="container">
+    <div class="eyebrow">Así se vive</div>
+    <h2 class="titulo-seccion">El lugar y la gente que lo hace posible</h2>
+    <p class="sub-seccion">Fotos reales del Mercat — el equipo, la barra, el salón y los atardeceres de temporada.</p>
+    <div class="asi-vive-grid">
+      <a class="av-item av-grande" href="#reserva"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160102/resto_interior_sillones_r5f1r2.jpg" alt="Interior del salón del Mercat, luces cálidas"><span class="av-tag">El salón</span></a>
+      <a class="av-item" href="#reserva"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160311/resto_sillon_dia_jjhqrq.jpg" alt="Living exterior del Mercat de día"><span class="av-tag">De día</span></a>
+      <a class="av-item" href="#reserva"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160165/resto_personal_trabajadores_sonriendo_stfgns.jpg" alt="Equipo del Mercat sonriendo detrás de la barra"><span class="av-tag">El equipo</span></a>
+      <a class="av-item" href="#reserva"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160313/resto_trabajador_logo_cirse_cu9axq.jpg" alt="Trabajador del Mercat con remera del Cirse"><span class="av-tag">El equipo</span></a>
+      <a class="av-item" href="#reserva"><img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160101/resto_hombres_sonriendo_comida_tragos_mercat_del_cirse_eozhqy.jpg" alt="Amigos disfrutando comida y tragos en el Mercat"><span class="av-tag">Los que vienen</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ RESEÑAS UNIFICADAS (carrusel editorial H2) ══════════ -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Lo que dicen</div>
+    <h2 class="titulo-seccion">Reseñas de quienes ya vinieron</h2>
+    <div class="badge-reviews"><b>+1.300</b><span>reseñas en Google, TripAdvisor e Instagram</span></div>
+    <p class="sub-seccion" style="margin-top:-1rem">Curaduría manual, no un widget en vivo — Facundo y Fede pegan a mano las mejores frases un par de veces al año.</p>
+    <div class="carrusel-ed" id="carruselResenas"></div>
+  </div>
+</section>
+
+<!-- ══════════ RESERVA DE MESA (simple, personas + fecha/hora, sin calendario) ══════════ -->
+<section class="reserva-mesa" id="reserva">
+  <div class="container">
+    <div class="eyebrow">Reservá tu mesa</div>
+    <h2 class="titulo-seccion">Te confirmamos por WhatsApp</h2>
+    <p class="sub-seccion" style="color:rgba(255,252,246,.72)">Sin calendario ni pago online — nos escribís cuántos son y cuándo, y el equipo del Mercat te confirma la disponibilidad.</p>
+
+    <div class="rm-grid">
+      <div>
+        <div class="form-fila">
+          <div class="form-campo" id="c-rmNombre"><label for="rmNombre">Nombre</label><input type="text" id="rmNombre" placeholder="Tu nombre"><span class="pista">Necesitamos tu nombre para responderte.</span></div>
+          <div class="form-campo" id="c-rmPersonas"><label for="rmPersonas">Personas</label><input type="number" id="rmPersonas" min="1" placeholder="Ej: 4"><span class="pista">Decinos cuántos son.</span></div>
+        </div>
+        <div class="form-fila">
+          <div class="form-campo" id="c-rmFecha"><label for="rmFecha">Fecha</label><input type="text" id="rmFecha" placeholder="Ej: sábado 14 de febrero"><span class="pista">Una fecha aproximada alcanza.</span></div>
+          <div class="form-campo"><label for="rmHora">Hora</label><input type="text" id="rmHora" placeholder="Ej: 21:00"></div>
+        </div>
+        <div class="form-campo" id="c-rmTel"><label for="rmTel">Teléfono / WhatsApp</label><input type="tel" id="rmTel" placeholder="+54 9 ..."><span class="pista">Sin teléfono no podemos confirmarte.</span></div>
+        <div class="form-campo"><label for="rmComentario">Comentario (opcional)</label><textarea rows="2" id="rmComentario" placeholder="Alergias, cumpleaños, algo más que debamos saber..."></textarea></div>
+        <div class="res-ok" id="rmOk" role="status">Listo — se abrió WhatsApp con tu solicitud cargada.</div>
+        <a href="#" id="btnReservaMesa" class="btn btn-primario" style="margin-top:1.2rem">Enviar solicitud de mesa</a>
+      </div>
+      <div class="rm-nota">
+        <p><b>Horario:</b> lunes a domingo, 12 a 23h, en temporada (diciembre a marzo).</p>
+        <p style="margin-top:.9rem"><b>Entrada:</b> libre y gratuita, salvo días con show pago — lo vas a ver marcado en el carrusel de novedades de arriba si aplica.</p>
+        <p style="margin-top:.9rem"><b>¿Grupos grandes o evento privado?</b> Para más de 15 personas o si estás pensando en un festejo, mejor coordinarlo por la sección de <a href="index.html#eventos" style="text-decoration:underline;color:var(--destello)">Eventos del Club</a> — ahí armamos la propuesta completa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <img src="https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786161987/logo_mercat_transp_voojva.png" alt="Mercat del Cirse" style="height:40px;filter:brightness(0) invert(1);margin-bottom:1rem">
+        <p style="max-width:38ch">El mercado de experiencias de Cirse Club de Lago, a la orilla del Nahuel Huapi.</p>
+        <p style="margin-top:.9rem;font-size:.84rem">Av. Ezequiel Bustillo Km 14.500<br>San Carlos de Bariloche, Río Negro</p>
+        <!-- 🔴 Preguntar a Facundo si quiere mantener crédito de fotógrafo/agencia — opcional.
+             Si dice que sí, descomentar:
+        <p style="margin-top:.9rem;font-size:.76rem;color:rgba(255,252,246,.45)">Fotos: @chapita.producciones</p>
+        -->
+      </div>
+      <div>
+        <h4>El Mercat</h4>
+        <ul>
+          <li><a href="#menu">Menú del día</a></li>
+          <li><a href="#reserva">Reservar mesa</a></li>
+          <li><a href="index.html#eventos">Eventos privados</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Cirse Club de Lago</h4>
+        <ul>
+          <li><a href="index.html">Volver al Club</a></li>
+          <li><a href="index.html#alojamiento">Alojamiento</a></li>
+          <li><a href="https://marina-cirse.vercel.app/">Marina y amarras</a></li>
+          <li style="margin-top:.9rem"><a href="#" data-wa><b data-wa-num>+54 9 ...</b></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="anio"></span> Cirse Club de Lago</span>
+      <a href="index.html#arrepentimiento" style="color:rgba(255,252,246,.55);text-decoration:underline">BOTÓN DE ARREPENTIMIENTO</a>
+      <span>Sitio desarrollado por El Faro Digital</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" data-wa class="wa-flotante" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.966-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- ══════════ JSON-LD ══════════ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Restaurant",
+  "name":"Mercat del Cirse",
+  "description":"Mercado de experiencias gastronómico a la orilla del lago Nahuel Huapi, dentro de Cirse Club de Lago.",
+  "address":{"@type":"PostalAddress","streetAddress":"Av. Ezequiel Bustillo Km 14.500","addressLocality":"San Carlos de Bariloche","addressRegion":"Río Negro","addressCountry":"AR"},
+  "geo":{"@type":"GeoCoordinates","latitude":"-41.093","longitude":"-71.455"},
+  "servesCuisine":"Parrilla, mariscos, cocina de autor",
+  "url":"https://REEMPLAZAR-dominio.com/mercat.html",
+  "openingHours":"Mo-Su 12:00-23:00"
+}
+</script>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════════
+   CONFIG — mismo patrón que index.html: un único lugar con los datos editables.
+   whatsapp: compartido con el Club por ahora (ver nota al inicio del archivo).
+   ════════════════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  nombreNegocio:'Mercat del Cirse',
+  whatsapp:'5492944783786',
+  whatsappVisible:'+54 9 2944 78-3786',
+
+  /* PROPUESTA/EJEMPLO (8-ago-2026, a pedido de Fede) — nombre y precio de cada plato son
+     inventados para mostrarle algo lindo a Facundo, NO son la carta real. Las fotos sí son
+     reales del Mercat. Reemplazar nombre+precio en cuanto exista la carta real confirmada
+     por la socia de Facundo. */
+  menuSemana:[
+    {dia:'Lunes',     plato:'Bife de campo a las brasas, puré ahumado y chimichurri del Mercat', precio:'$22.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160318/gastro-plato_c7iuym.jpg'},
+    {dia:'Martes',    plato:'Camarones a la parrilla, alioli de limón y pan de campo', precio:'$24.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160272/resto_plato_portado_vertical_camarones_ru4nxy.jpg'},
+    {dia:'Miércoles', plato:'Focaccia del Mercat, hierbas de estación y aceite de oliva patagónico', precio:'$12.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160168/resto_plato_focaccia_dy051n.jpg'},
+    {dia:'Jueves',    plato:'La Hamburguesa del Mercat — doble cheddar, panceta ahumada, cebolla caramelizada', precio:'$19.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160320/gastro-burguer_zxr3mm.jpg'},
+    {dia:'Viernes',   plato:'Trucha patagónica a la plancha, ensalada de estación y copa de vino de la casa', precio:'$26.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160275/resto_plato_y_trago_j5k6xa.jpg'},
+    {dia:'Sábado',    plato:'Ceviche patagónico de trucha, leche de tigre de maracuyá', precio:'$21.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160273/resto_plato_rosa_urdtxw.jpg'},
+    {dia:'Domingo',   plato:'Bowl nikkei del Mercat — salmón, palta, arroz y sésamo tostado', precio:'$23.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160270/Resto_plato_palillos_col8gr.jpg'}
+  ],
+
+  /* PROPUESTA/EJEMPLO (8-ago-2026) — tragos de autor inventados, fotos reales de la barra
+     del Mercat. Mismo criterio que el menú: validar nombres con Facundo antes de publicar. */
+  tragos:[
+    {tipo:'La barra', titulo:'Coctelería de autor, todas las tardes', texto:'Barra abierta desde el mediodía hasta el cierre — tragos clásicos y de autor, con productos patagónicos.', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160323/resto_barwoman_mercar_del_cirse_qz1zt4.jpg'},
+    {tipo:'Trago de autor', titulo:'Diosa Cirse', texto:'Vodka, maracuyá, espuma de frutos rojos y un toque de romero flambeado. $15.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160326/resto_chica_sirviendo_yfnmwr.jpg'},
+    {tipo:'Trago de autor', titulo:'Nahuel Sour', texto:'Whisky, jarabe de calafate patagónico, clara de huevo y angostura. $15.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160322/resto_barra_vertical_jrmamn.jpg'},
+    {tipo:'Trago de autor', titulo:'Ocaso del Mercat', texto:'Aperol, gin patagónico, pomelo rosado y soda — el trago del atardecer. $15.000 (propuesta)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160315/tragos-gastronomia_m10ga6.jpg'}
+  ],
+
+  /* PROPUESTA/EJEMPLO (8-ago-2026) — títulos y textos inventados a pedido de Fede, fotos
+     reales. Mismo patrón que PROXIMOS_EVENTOS de index.html: array a mano hoy, candidato
+     a migrar a Google Sheet + PapaParse (patrón de Áurea) en cuanto exista el Google Form
+     de intake. tipo: 'Novedad' | 'Evento del Mercat' | 'Descuento' */
+  novedades:[
+    {tipo:'Novedad', titulo:'Brindis de bienvenida', texto:'Los viernes de temporada arrancamos la noche con una copa de cortesía en la mesa. (propuesta — a confirmar)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160330/resto_espumante_copas_hshosa.jpg'},
+    {tipo:'Evento del Mercat', titulo:'Noche de fuego', texto:'Cocina a la vista, al fuego abierto, bajo la carpa — una experiencia para reservar con anticipación. (propuesta — a confirmar)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160328/resto_empandas_de_campo_mercat_del_cirse_oth2v9.jpg'},
+    {tipo:'Evento del Mercat', titulo:'Sunset Sessions', texto:'Atardeceres con música y tragos de autor en el salón, mirando al lago. (propuesta — a confirmar)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160278/resto_salon_premium_artistic_sillon_tfvhtm.jpg'},
+    {tipo:'Descuento', titulo:'2x1 en tragos de autor', texto:'Lunes a miércoles, de 18 a 20h, en la barra del Mercat. (propuesta — a confirmar)', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160279/resto_sandwich_mercat_del_cirse_upjr2u.jpg'}
+  ],
+
+  /* EJEMPLO — nunca inventar reseñas reales de clientes. Reemplazar con las
+     frases curadas a mano por Facundo/Fede cuando estén listas. */
+  reseñas:[
+    {titulo:'Reseña de ejemplo', texto:'“Acá va la frase real curada de Google, TripAdvisor o Instagram cuando esté lista — no antes.”', texto2:'— Nombre del reseñador, plataforma', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160316/gastro-1_trcizc.jpg'},
+    {titulo:'Reseña de ejemplo', texto:'“Segunda reseña de ejemplo — completar con una frase real curada.”', texto2:'— Nombre del reseñador, plataforma', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160167/resto_plato_camarones_an2mbw.jpg'},
+    {titulo:'Reseña de ejemplo', texto:'“Tercera reseña de ejemplo — sumar entre 15 y 25 en total para transmitir volumen real.”', texto2:'— Nombre del reseñador, plataforma', foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786160100/resto_foto_plato_mercat_del_cirse_myhsqm.jpg'}
+  ]
+};
+const REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const waUrl = t => `https://wa.me/${CONFIG.whatsapp}?text=${t}`;
+document.getElementById('anio').textContent = new Date().getFullYear();
+
+/* ---------- MENÚ + BADGE ---------- */
+document.querySelectorAll('[data-wa]').forEach(a=>{
+  a.href = waUrl(encodeURIComponent(`Hola! Les escribo desde la página del Mercat del Cirse. Tengo una consulta, ¿me pueden ayudar?`));
+  a.target = '_blank'; a.rel = 'noopener';
+});
+document.querySelectorAll('[data-wa-num]').forEach(el=> el.textContent = CONFIG.whatsappVisible);
+
+/* ---------- HEADER + MENÚ MÓVIL ---------- */
+const nav = document.getElementById('nav');
+document.getElementById('menuToggle').addEventListener('click', ()=> nav.classList.toggle('abierto'));
+document.querySelectorAll('#nav a').forEach(a=> a.addEventListener('click', ()=> nav.classList.remove('abierto')));
+
+/* ---------- HERO ROTATIVO (patrón H1) ---------- */
+const heroSlides = document.querySelectorAll('.hero .hero-slide');
+const heroDotsWrap = document.getElementById('heroDots');
+heroSlides.forEach((_,i)=>{
+  const d = document.createElement('span');
+  if(i===0) d.classList.add('activo');
+  d.addEventListener('click', ()=> irASlideHero(i));
+  heroDotsWrap.appendChild(d);
+});
+let heroIndex = 0;
+function irASlideHero(i){
+  heroSlides[heroIndex].classList.remove('activa');
+  heroDotsWrap.children[heroIndex].classList.remove('activo');
+  heroIndex = i;
+  heroSlides[heroIndex].classList.add('activa');
+  heroDotsWrap.children[heroIndex].classList.add('activo');
+}
+if(!REDUCE) setInterval(()=> irASlideHero((heroIndex+1) % heroSlides.length), 5200);
+
+/* ---------- H2: CARRUSEL EDITORIAL (extiende H1) ----------
+   Un mismo componente para el menú semanal y para cada stream autogestivo.
+   Navegación manual (flechas + swipe + contador) — sin autoplay, el Ken Burns
+   corre en loop lento solo en la hoja activa mientras el visitante la lee.
+   Si el array viene vacío, muestra un estado vacío con link a WhatsApp en vez
+   de romper — mismo criterio que la grilla de eventos del Club. */
+function initCarrusel(contenedorId, hojas, render){
+  const wrap = document.getElementById(contenedorId);
+  if(!wrap) return;
+  if(!hojas || !hojas.length){
+    const wa = waUrl(encodeURIComponent(`Hola! Les escribo desde la página del Mercat del Cirse. Quiero consultar por esto, ¿me pueden ayudar?`));
+    wrap.innerHTML = `<div class="ced-vacio"><p>Todavía no hay contenido cargado acá — escribinos y te contamos.</p>
+      <a href="${wa}" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:1rem">Preguntar por WhatsApp</a></div>`;
+    return;
+  }
+  wrap.innerHTML = hojas.map((h,i)=> `<div class="ced-hoja${i===0?' activa':''}">${render(h)}</div>`).join('') +
+    `<div class="ced-contador" id="${contenedorId}-cont">1 / ${hojas.length}</div>
+     <div class="ced-dots" id="${contenedorId}-dots">${hojas.map((_,i)=>`<span class="${i===0?'activo':''}"></span>`).join('')}</div>
+     ${hojas.length>1 ? `<button class="ced-nav ced-prev" aria-label="Anterior">‹</button><button class="ced-nav ced-next" aria-label="Siguiente">›</button>` : ''}`;
+  if(hojas.length <= 1) return;
+  const hojasEl = wrap.querySelectorAll('.ced-hoja');
+  const dotsEl = wrap.querySelectorAll(`#${contenedorId}-dots span`);
+  const contEl = wrap.querySelector(`#${contenedorId}-cont`);
+  let actual = 0;
+  function ir(i){
+    hojasEl[actual].classList.remove('activa');
+    dotsEl[actual].classList.remove('activo');
+    actual = (i + hojas.length) % hojas.length;
+    hojasEl[actual].classList.add('activa');
+    dotsEl[actual].classList.add('activo');
+    contEl.textContent = `${actual+1} / ${hojas.length}`;
+  }
+  wrap.querySelector('.ced-prev').addEventListener('click', ()=> ir(actual-1));
+  wrap.querySelector('.ced-next').addEventListener('click', ()=> ir(actual+1));
+  dotsEl.forEach((d,i)=> d.addEventListener('click', ()=> ir(i)));
+  // swipe mobile
+  let touchX = null;
+  wrap.addEventListener('touchstart', e=> touchX = e.touches[0].clientX, {passive:true});
+  wrap.addEventListener('touchend', e=>{
+    if(touchX === null) return;
+    const delta = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(delta) > 40) ir(actual + (delta < 0 ? 1 : -1));
+    touchX = null;
+  }, {passive:true});
+}
+
+initCarrusel('carruselMenu', CONFIG.menuSemana, h => `
+  <img src="${h.foto}" alt="${h.plato} — ${h.dia}">
+  <div class="ced-texto">
+    <span class="ced-tipo">Menú del día · ${h.dia}</span>
+    <h3>${h.plato}</h3>
+    <span class="ced-precio">${h.precio}</span>
+  </div>`);
+
+initCarrusel('carruselTragos', CONFIG.tragos, h => `
+  <img src="${h.foto}" alt="${h.titulo}">
+  <div class="ced-texto">
+    <span class="ced-tipo">${h.tipo}</span>
+    <h3>${h.titulo}</h3>
+    <p>${h.texto}</p>
+  </div>`);
+
+initCarrusel('carruselNovedades', CONFIG.novedades, h => `
+  <img src="${h.foto}" alt="${h.titulo}">
+  <div class="ced-texto">
+    <span class="ced-tipo">${h.tipo}</span>
+    <h3>${h.titulo}</h3>
+    <p>${h.texto}</p>
+  </div>`);
+
+initCarrusel('carruselResenas', CONFIG.reseñas, h => `
+  <img src="${h.foto}" alt="${h.titulo}">
+  <div class="ced-texto">
+    <span class="ced-tipo">Reseña</span>
+    <h3 style="font-size:1.15rem;font-style:italic;max-width:60ch">${h.texto}</h3>
+    <p>${h.texto2}</p>
+  </div>`);
+
+/* ---------- FORMULARIO DE VALIDACIÓN (mismo patrón que index.html) ---------- */
+function validarCampo(idCampo, idInput){
+  const campo = document.getElementById(idCampo);
+  const input = document.getElementById(idInput);
+  const ok = input.value.trim().length > 0;
+  campo.classList.toggle('error', !ok);
+  return ok;
+}
+
+/* ---------- RESERVA DE MESA ---------- */
+document.getElementById('btnReservaMesa').addEventListener('click', e=>{
+  e.preventDefault();
+  const okN = validarCampo('c-rmNombre','rmNombre');
+  const okP = validarCampo('c-rmPersonas','rmPersonas');
+  const okF = validarCampo('c-rmFecha','rmFecha');
+  const okT = validarCampo('c-rmTel','rmTel');
+  if(!(okN && okP && okF && okT)){
+    document.querySelector('.form-campo.error').scrollIntoView({behavior: REDUCE?'auto':'smooth', block:'center'});
+    return;
+  }
+  const v = id => document.getElementById(id).value.trim();
+  const msg = encodeURIComponent(
+    `Hola! Quiero reservar una mesa en ${CONFIG.nombreNegocio}\n\n` +
+    `Personas: ${v('rmPersonas')}\n` +
+    `Fecha: ${v('rmFecha')}\n` +
+    `Hora: ${v('rmHora') || 'a coordinar'}\n` +
+    `Nombre: ${v('rmNombre')}\n` +
+    `Teléfono: ${v('rmTel')}\n` +
+    `Comentario: ${v('rmComentario') || 'Sin comentarios'}`
+  );
+  document.getElementById('rmOk').classList.add('visible');
+  window.open(waUrl(msg), '_blank');
+});
+</script>
+</body>
+</html>
