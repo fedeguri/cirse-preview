@@ -175,6 +175,31 @@
        (luz de atardecer de manual, botes de fondo con calidad rara), según su
        propia condición de no usarlo si se veía así. Se saca la sección hasta
        tener una foto real en mejor resolución.
+  16. SESIÓN 4-sep-2026 (cuarta tanda) — disponibilidad de Cabañas, rediseño final:
+     - Se sacó el semáforo único de Cabañas (1-sep-2026): insuficiente, Facundo
+       reserva cabañas puntuales en fechas puntuales. De paso corrige un bug real:
+       el semáforo dejó código muerto (`getElementById('semaforoCabanas')` sobre
+       un `<div>` que ya no estaba en el HTML) que tiraba `TypeError` en el primer
+       render y cortaba TODO el script de Reservas — el calendario no pintaba ni
+       cargaba disponibilidad. Quedó resuelto al sacar el mecanismo entero.
+     - Cabañas vuelve a tener 5 calendarios independientes (uno por cabaña, sin
+       agregación entre ellas) — si se agregaran (verde con que 1 sola esté
+       libre), alguien podría reservar un rango que en los hechos está partido
+       entre 2 cabañas distintas y enterarse recién cuando Facundo confirma. Para
+       que nadie confunda "esta cabaña está llena esos días" con "no hay nada
+       disponible en el predio", el selector de cabaña (chips "Cabaña 1" a
+       "Cabaña 5", sin fotos porque son todas iguales) muestra siempre un aviso
+       fijo debajo indicando de qué cabaña es el calendario que se está viendo.
+       Cada cabaña lee su propia hoja de Google Sheets (`CONFIG.urlsCabana`,
+       formato calendario con fila de números de día + fila de estado en blanco
+       debajo — vacía = libre, cualquier texto = ocupado, sin depender de una
+       palabra clave exacta) vía `cargarCalendarioCabanas()`.
+     - El calendario de Reservas pasa de elegir una sola fecha a elegir un rango
+       Desde → Hasta con dos clics (nunca texto escrito a mano) — aplica a los 3
+       servicios por igual, mensaje de WhatsApp estandarizado para quien lo recibe.
+     - PENDIENTE: cargar las 5 URLs reales de `CONFIG.urlsCabana` (siguen en
+       REEMPLAZAR) apenas el equipo importe y complete las 5 pestañas — ver
+       `calendario-cabana-plantilla.csv` y la guía del Artifact "Semáforo de Cirse".
 
   PENDIENTE — preguntarle a Facundo (sin inventar nada mientras tanto):
     - Tour 360: 4 fotos (muelle, costa/patio, una unidad por dentro, sector de
@@ -439,7 +464,9 @@ header.scrolled .menu-toggle span{background:var(--carbon)}
 .cal-dia.bloqueado{color:rgba(255,252,246,.22);text-decoration:line-through}
 .cal-dia.hoy{outline:1px solid rgba(232,163,61,.6)}
 .cal-dia.seleccionado{background:var(--destello);color:var(--lago-osc);font-weight:700}
-.cal-ref{display:flex;gap:1.2rem;margin-top:.9rem;font-size:.74rem;color:rgba(255,252,246,.62)}
+.cal-dia.en-rango{background:rgba(232,163,61,.28)}
+.cal-ayuda{font-size:.78rem;color:rgba(255,252,246,.6);margin-bottom:.8rem}
+.cal-ref{display:flex;gap:1.2rem;margin-top:.9rem;font-size:.74rem;color:rgba(255,252,246,.62);flex-wrap:wrap}
 .cal-ref i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:.35rem;vertical-align:-1px}
 .form-fila{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 @media(max-width:520px){.form-fila{grid-template-columns:1fr}}
@@ -455,11 +482,11 @@ header.scrolled .menu-toggle span{background:var(--carbon)}
 .reserva-visual img{width:100%;height:100%;object-fit:cover;display:block}
 .reserva-visual .ph{height:100%;min-height:0}
 
-.semaforo-cabanas{background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.16);border-radius:var(--radio);padding:1.1rem 1.3rem;margin-bottom:1.4rem}
-.semaforo-punto{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:.5rem;vertical-align:-1px;background:#3fae6a}
 .unidad-selector{margin-bottom:1.4rem}
 .us-titulo{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--destello);margin-bottom:.65rem}
 .us-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.7rem}
+.us-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:.6rem}
+.us-nota{font-size:.78rem;color:rgba(255,252,246,.72);background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.16);border-radius:3px;padding:.6rem .8rem}
 .us-card{background:rgba(255,252,246,.06);border:1.4px solid rgba(255,252,246,.18);border-radius:var(--radio);overflow:hidden;cursor:pointer;transition:.2s;text-align:left;padding:0;font-family:var(--texto);color:var(--blanco)}
 .us-card:hover{border-color:rgba(232,163,61,.6)}
 .us-card.activo{border-color:var(--destello);background:rgba(232,163,61,.12)}
@@ -866,21 +893,14 @@ footer a:hover{color:var(--destello)}
           <div class="ph" id="reservaVisualPh" style="display:none" data-foto="📷 Foto pendiente"></div>
         </div>
 
-        <!-- 1-sep-2026: Cabañas dejó de tener selector de unidad + calendario por cabaña
-             (Facundo pidió simplificarlo a un semáforo único, ver cargarSemaforoCabanas()
-             más abajo en el script). El unidad-selector queda en el markup por si algún
-             otro servicio futuro necesita variantes elegibles, pero hoy ningún servicio
-             activo lo usa (pintarUnidades() lo oculta solo cuando el servicio no tiene
-             `unidades`). -->
-        <div class="semaforo-cabanas" id="semaforoCabanas" style="display:none">
-          <span class="semaforo-punto" id="semaforoPunto"></span><span id="semaforoTexto">Consultando disponibilidad…</span>
-          <p class="precio-nota" style="margin:.6rem 0 0">Tenemos 5 cabañas, todas iguales.</p>
-          <p class="nota-cancel" style="margin-top:.7rem">El envío de este formulario no garantiza la reserva de la cabaña. La reserva se confirma por WhatsApp.</p>
-        </div>
-
+        <!-- 4-sep-2026 (6): Cabañas usa este selector para elegir ENTRE las 5 cabañas
+             (cada una con su propio calendario independiente, sin agregación — ver
+             cargarCalendarioCabanas()/CONFIG.urlsCabana). pintarUnidades() lo oculta
+             solo cuando el servicio activo no tiene `unidades` (Camping/Motorhome). -->
         <div class="unidad-selector" id="unidadSelector" style="display:none"></div>
 
         <div class="calendario" id="calendarioBloque">
+          <p class="cal-ayuda">Tocá el primer día de tu estadía y después el último.</p>
           <div class="cal-head">
             <button id="calPrev" aria-label="Mes anterior">‹</button>
             <h4 id="calMes"></h4>
@@ -892,14 +912,10 @@ footer a:hover{color:var(--destello)}
           <div class="cal-ref">
             <span><i style="background:rgba(255,252,246,.18)"></i>Disponible</span>
             <span><i style="background:rgba(255,252,246,.06);border:1px solid rgba(255,252,246,.2)"></i>Ocupado</span>
+            <span><i style="background:rgba(232,163,61,.28)"></i>En tu rango</span>
             <span><i style="background:var(--destello)"></i>Elegido</span>
           </div>
           <p class="cal-estado" id="notaServicio" style="min-height:0;margin-top:.7rem;color:rgba(255,252,246,.7)"></p>
-        </div>
-
-        <div class="form-campo" id="filaFechaDeseada" style="display:none">
-          <label for="rFechaDeseada">¿Para qué fecha?</label>
-          <input type="text" id="rFechaDeseada" placeholder="Ej: segunda semana de enero">
         </div>
 
         <div class="form-fila">
@@ -916,10 +932,10 @@ footer a:hover{color:var(--destello)}
       <aside class="resumen">
         <h4>Tu solicitud</h4>
         <div class="resumen-linea"><span>Servicio</span><b id="resServicio">Camping</b></div>
-        <div class="resumen-linea"><span>Fecha</span><b id="resFecha">Por elegir</b></div>
+        <div class="resumen-linea"><span>Fechas</span><b id="resFecha">Por elegir</b></div>
         <div class="resumen-linea"><span>Personas</span><b id="resPersonas">—</b></div>
         <div class="resumen-linea"><span>Referencia</span><b id="resPrecio">A confirmar</b></div>
-        <div class="res-error" id="resError" role="alert">Elegí primero una fecha disponible en el calendario.</div>
+        <div class="res-error" id="resError" role="alert">Elegí primero un rango de fechas (Desde y Hasta) disponible en el calendario.</div>
         <div class="res-ok" id="resOk" role="status">Listo — se abrió WhatsApp con tu solicitud cargada.</div>
         <a href="#" id="btnReservar" class="btn btn-primario" style="width:100%;justify-content:center;margin-top:1.3rem" data-cp-magnetico>Enviar solicitud de reserva</a>
         <a href="#" id="btnPagar" class="btn btn-secundario" style="width:100%;justify-content:center;margin-top:.7rem"><span>Coordinar seña por WhatsApp</span></a>
@@ -1134,11 +1150,21 @@ const CONFIG = {
   // exacta (no "Entire Document") → formato CSV → pegar esa URL acá. Ver el
   // comentario junto a fechasBloqueadas más abajo para el formato de la Sheet.
   urlDisponibilidad:'REEMPLAZAR-URL-CSV-DISPONIBILIDAD',
-  // Semáforo de Cabañas (1-sep-2026, pedido de Facundo): Sheet publicado a la web con
-  // UNA sola celda — el equipo de Cirse escribe "verde" o "rojo" ahí, desde el celular,
-  // sin tocar código ni depender de El Faro. Mismo criterio de publicación que
-  // urlDisponibilidad (File → Share → Publish to web → CSV), pero de una hoja de 1x1.
-  urlSemaforoCabanas:'REEMPLAZAR-URL-CSV-SEMAFORO-CABANAS',
+  // Calendario de Cabañas (4-sep-2026, cuarta tanda): 5 hojas de Google Sheets, una
+  // por cabaña — cada una publicada a la web (File → Share → Publish to web → CSV,
+  // elegir la pestaña exacta). Formato de cada hoja: fila con el mes ("Septiembre
+  // 2026"), fila de encabezado de días (decorativa), y por cada semana un PAR de
+  // filas — la de arriba con los números de día (fija, no se toca) y la de abajo en
+  // blanco para marcar: vacía = libre, cualquier texto ahí = ocupado (no hace falta
+  // una palabra exacta). Cada cabaña se lee y se pinta SOLA, sin cruzar datos con las
+  // otras 4 — ver cargarCalendarioCabanas() más abajo y calendario-cabana-plantilla.csv.
+  urlsCabana:{
+    'Cabaña 1':'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-HWIy5s_16gjvgTPjzfaeS7TMyqZD5lcocfFC5yFw_FwrACchWhB0yRyoyr58VtSiCXxf5YPY021J/pub?gid=1185444225&single=true&output=csv',
+    'Cabaña 2':'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-HWIy5s_16gjvgTPjzfaeS7TMyqZD5lcocfFC5yFw_FwrACchWhB0yRyoyr58VtSiCXxf5YPY021J/pub?gid=735552698&single=true&output=csv',
+    'Cabaña 3':'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-HWIy5s_16gjvgTPjzfaeS7TMyqZD5lcocfFC5yFw_FwrACchWhB0yRyoyr58VtSiCXxf5YPY021J/pub?gid=1061616946&single=true&output=csv',
+    'Cabaña 4':'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-HWIy5s_16gjvgTPjzfaeS7TMyqZD5lcocfFC5yFw_FwrACchWhB0yRyoyr58VtSiCXxf5YPY021J/pub?gid=545712129&single=true&output=csv',
+    'Cabaña 5':'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-HWIy5s_16gjvgTPjzfaeS7TMyqZD5lcocfFC5yFw_FwrACchWhB0yRyoyr58VtSiCXxf5YPY021J/pub?gid=2112335516&single=true&output=csv'
+  },
   /* Cada servicio puede tener:
      - foto: imagen que se muestra al elegirlo (si no hay, se muestra un placeholder)
      - campos: inputs extra específicos del servicio, se agregan al mensaje de WhatsApp
@@ -1155,17 +1181,31 @@ const CONFIG = {
         {id:'dMenores',   label:'¿Cuántos menores de 9 años viajan?', tipo:'number', placeholder:'Ej: 0'}
       ]
     },
-    {id:'cabana',    corto:'Cabañas',   nombre:'Cabaña',           detalle:'Unidad completa',      precios:{alta:'A confirmar',media:'A confirmar',baja:'A confirmar'}, calKey:'cabanas', reservable:true, tipoDisponibilidad:'semaforo', linkPago:'',
-      foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1785214972/complejo-cabanas_ikgdsm.png'
+    {id:'cabana',    corto:'Cabañas',   nombre:'Cabaña',           detalle:'Unidad completa',      precios:{alta:'A confirmar',media:'A confirmar',baja:'A confirmar'}, calKey:'cabanas', reservable:true, tipoDisponibilidad:'calendario', linkPago:'',
+      foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1785214972/complejo-cabanas_ikgdsm.png',
       /* 5 cabañas REALES, todas iguales — confirmado por Facundo (formulario 28-ago-2026):
          capacidad 4/5 personas, vista al lago, dos plantas. PA: habitación matrimonial con
          armario + habitación con cuchetas y armario. PB: living (2 sillones de 1 plaza, sillón
          cama y hogar), comedor, cocina equipada, baño con antebaño (lavamanos) y baño con
          bañadera. Afuera, parrilla.
-         1-sep-2026: Facundo pidió simplificar la disponibilidad a un semáforo único (verde/rojo,
-         ver cargarSemaforoCabanas() más abajo) en vez de calendario por unidad — ya no hace
-         falta el detalle de las 5 unidades individuales acá (nombre/foto/características/fechas
-         bloqueadas por cabaña), así que se sacó el array `unidades` que tenía antes. */
+         4-sep-2026 (6): cada cabaña tiene SU PROPIO calendario, sin agregar entre ellas —
+         un rango de días verdes tiene que ser siempre UNA cabaña completa, nunca dos
+         cabañas distintas partidas a mitad de estadía. `unidadesModo:'simple'` le dice a
+         pintarUnidades() que pinte chips con solo el nombre (sin foto/capacidad — son
+         todas iguales) y que muestre el aviso fijo de "estás viendo la disponibilidad de
+         Cabaña N", clave para que nadie confunda "esta cabaña está llena" con "no hay
+         nada disponible en el predio". Cada `bloqueadas` la llena
+         cargarCalendarioCabanas() leyendo CONFIG.urlsCabana[nombre] — arranca vacío
+         (disponible) hasta que esa hoja cargue. */
+      unidadesModo:'simple',
+      unidadesLabel:'Elegí la cabaña',
+      unidades:[
+        {nombre:'Cabaña 1', bloqueadas:[]},
+        {nombre:'Cabaña 2', bloqueadas:[]},
+        {nombre:'Cabaña 3', bloqueadas:[]},
+        {nombre:'Cabaña 4', bloqueadas:[]},
+        {nombre:'Cabaña 5', bloqueadas:[]}
+      ]
     },
     {id:'motorhome', corto:'Motorhome', nombre:'Sector motorhome', detalle:'Por persona · mismo valor que Camping · incluye conexión eléctrica y de agua', precios:{alta:'A confirmar',media:'A confirmar',baja:'A confirmar'}, calKey:'motorhome', reservable:false, tipoDisponibilidad:'calendario', linkPago:'',
       foto:'https://res.cloudinary.com/rexsyexh/image/upload/f_auto,q_auto/v1786129013/motorhome_muestra_qdf9fh.jpg',
@@ -1184,22 +1224,16 @@ const CONFIG = {
      el script) los pisa en cuanto el Sheet carga bien.
 
      Formato de la Sheet (una fila = una fecha bloqueada; agregar fila = bloquear,
-     borrar fila = desbloquear — no hay columna de sí/no):
-       servicio | unidad              | fecha
-       camping  |                     | 2026-08-08
-       cabanas  | Cabaña 1            | 2026-08-10
-       motorhome|                     | 2026-09-01
-       general  |                     | 2026-12-25   (bloquea los 3 servicios)
-     'servicio' tiene que ser exacto: camping / cabanas / motorhome / general.
-     'unidad' solo se usa si servicio=cabanas, y tiene que matchear EXACTO el
-     nombre de la cabaña (ver 'unidades' arriba) — vacío para el resto. */
+     borrar fila = desbloquear — no hay columna de sí/no). Esta Sheet combinada ya
+     NO incluye a Cabañas (que tiene sus propias 5 hojas, ver CONFIG.urlsCabana):
+       servicio | fecha
+       camping  | 2026-08-08
+       motorhome| 2026-09-01
+       general  | 2026-12-25   (bloquea los 3 servicios)
+     'servicio' tiene que ser exacto: camping / motorhome / general. */
   fechasBloqueadas:{
     general:[],
     camping:['2026-08-08','2026-08-09'],
-    // 'cabanas' queda acá por compatibilidad con cargarDisponibilidad() (que sigue
-    // aceptando filas servicio=cabanas del Sheet sin romper), pero desde el 1-sep-2026
-    // la UI de Cabañas ya no lo lee — usa el semáforo (urlSemaforoCabanas) en su lugar.
-    cabanas:[],
     motorhome:[]
   }
 };
@@ -1303,25 +1337,46 @@ function pintarUnidades(s){
     return;
   }
   unidadSelector.style.display = 'block';
-  unidadSelector.innerHTML = '<span class="us-titulo">' + (s.unidadesLabel || 'Elegí cuál') + ' — tocá una opción</span><div class="us-grid" id="usGrid"></div>';
+  const simple = s.unidadesModo === 'simple';
+  if(simple){
+    // Chips livianos (solo nombre, sin foto/capacidad — son todas iguales) + aviso
+    // fijo de cuál calendario se está viendo: sin esto, alguien podría ver el
+    // calendario de UNA cabaña en rojo y creer que no hay nada disponible en todo
+    // el predio, cuando otra cabaña puede tener esas mismas fechas libres.
+    unidadSelector.innerHTML = '<span class="us-titulo">' + (s.unidadesLabel || 'Elegí cuál') + '</span><div class="us-chips" id="usGrid"></div><p class="us-nota" id="usNota"></p>';
+  } else {
+    unidadSelector.innerHTML = '<span class="us-titulo">' + (s.unidadesLabel || 'Elegí cuál') + ' — tocá una opción</span><div class="us-grid" id="usGrid"></div>';
+  }
   const grid = document.getElementById('usGrid');
+  const nota = document.getElementById('usNota');
+  function actualizarNota(u){
+    if(!nota) return;
+    nota.innerHTML = `📅 Estás viendo la disponibilidad de <b>${u.nombre}</b>. Si acá no hay lugar en tus fechas, probá otra cabaña — cada una tiene su propio calendario.`;
+  }
   s.unidades.forEach((u,i)=>{
     const card = document.createElement('button');
     card.type = 'button';
-    card.className = 'us-card' + (i===0 ? ' activo' : '');
-    const foto = u.foto ? `<img src="${u.foto}" alt="${u.nombre}">` : `<div class="ph" data-foto="📷 Foto pendiente"></div>`;
-    card.innerHTML = foto + `<div class="us-body"><b>${u.nombre}</b><small>${u.capacidad}</small><ul>${u.caracteristicas.map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
+    if(simple){
+      card.className = 'chip' + (i===0 ? ' activo' : '');
+      card.textContent = u.nombre;
+    } else {
+      card.className = 'us-card' + (i===0 ? ' activo' : '');
+      const foto = u.foto ? `<img src="${u.foto}" alt="${u.nombre}">` : `<div class="ph" data-foto="📷 Foto pendiente"></div>`;
+      card.innerHTML = foto + `<div class="us-body"><b>${u.nombre}</b><small>${u.capacidad}</small><ul>${u.caracteristicas.map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
+    }
     card.addEventListener('click', ()=>{
-      grid.querySelectorAll('.us-card').forEach(c=>c.classList.remove('activo'));
+      grid.querySelectorAll(simple ? '.chip' : '.us-card').forEach(c=>c.classList.remove('activo'));
       card.classList.add('activo');
       unidadSeleccionada = u;
-      fechaSeleccionada = null;
-      document.getElementById('resFecha').textContent = 'Por elegir';
+      fechaDesde = null; fechaHasta = null;
+      actualizarResumenFecha();
+      if(simple) actualizarNota(u);
       pintarCalendario();
     });
     grid.appendChild(card);
   });
   unidadSeleccionada = s.unidades[0];
+  if(simple) actualizarNota(unidadSeleccionada);
 }
 
 function pintarCamposDinamicos(s){
@@ -1350,14 +1405,6 @@ function pintarNotaServicio(s){
   const btn = document.getElementById('btnReservar');
   if(btn) btn.textContent = s.reservable ? 'Enviar solicitud de reserva' : 'Consultar disponibilidad';
 }
-/* 1-sep-2026: alterna entre el calendario (Camping/Motorhome) y el semáforo único de
-   Cabañas — reemplaza el selector de 5 unidades individuales que había antes. */
-function actualizarDisponibilidadUI(s){
-  const esSemaforo = s.tipoDisponibilidad === 'semaforo';
-  document.getElementById('calendarioBloque').style.display = esSemaforo ? 'none' : 'block';
-  document.getElementById('semaforoCabanas').style.display = esSemaforo ? 'block' : 'none';
-  document.getElementById('filaFechaDeseada').style.display = esSemaforo ? 'block' : 'none';
-}
 CONFIG.servicios.forEach((s,i)=>{
   const b = document.createElement('button');
   b.className = 'chip' + (i===0 ? ' activo' : '');
@@ -1369,16 +1416,14 @@ CONFIG.servicios.forEach((s,i)=>{
     servicioActivo = s;
     resServicio.textContent = s.nombre;
     resPrecio.textContent = formatPrecio(s);
-    fechaSeleccionada = null;
-    document.getElementById('rFechaDeseada').value = '';
-    document.getElementById('resFecha').textContent = 'Por elegir';
+    fechaDesde = null; fechaHasta = null;
+    actualizarResumenFecha();
     actualizarBtnPago();
+    pintarUnidades(s);
     pintarCalendario();
     pintarVisual(s);
-    pintarUnidades(s);
     pintarCamposDinamicos(s);
     pintarNotaServicio(s);
-    actualizarDisponibilidadUI(s);
   });
   selectorServicio.appendChild(b);
 });
@@ -1388,10 +1433,6 @@ pintarVisual(servicioActivo);
 pintarUnidades(servicioActivo);
 pintarCamposDinamicos(servicioActivo);
 pintarNotaServicio(servicioActivo);
-actualizarDisponibilidadUI(servicioActivo);
-document.getElementById('rFechaDeseada').addEventListener('input', e=>{
-  document.getElementById('resFecha').textContent = e.target.value.trim() || 'Por elegir';
-});
 const bloqueadasActivas = ()=> (CONFIG.fechasBloqueadas.general||[])
   .concat(CONFIG.fechasBloqueadas[servicioActivo.calKey]||[])
   .concat((unidadSeleccionada && unidadSeleccionada.bloqueadas) || []);
@@ -1401,8 +1442,37 @@ const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto'
 const hoy = new Date();
 let calAno = hoy.getFullYear(), calMesIdx = hoy.getMonth();
 const calMesEl = document.getElementById('calMes'), calGrid = document.getElementById('calGrid');
-let fechaSeleccionada = null;
+let fechaDesde = null, fechaHasta = null;
 const pad = n => n<10 ? '0'+n : n;
+function formatearFechaLarga(iso){
+  const [y,m,d] = iso.split('-').map(Number);
+  return new Intl.DateTimeFormat(CONFIG.locale,{day:'numeric',month:'long',year:'numeric'}).format(new Date(y,m-1,d));
+}
+function hayBloqueadaEnRango(desde, hasta){
+  const activas = bloqueadasActivas();
+  let [y,m,d] = desde.split('-').map(Number);
+  const cursor = new Date(y,m-1,d);
+  const [yf,mf,df] = hasta.split('-').map(Number);
+  const fin = new Date(yf,mf-1,df);
+  while(cursor <= fin){
+    const iso = `${cursor.getFullYear()}-${pad(cursor.getMonth()+1)}-${pad(cursor.getDate())}`;
+    if(activas.includes(iso)) return true;
+    cursor.setDate(cursor.getDate()+1);
+  }
+  return false;
+}
+function actualizarResumenFecha(){
+  const el = document.getElementById('resFecha');
+  if(!fechaDesde){
+    el.textContent = 'Por elegir';
+  } else if(!fechaHasta){
+    el.textContent = `Desde el ${formatearFechaLarga(fechaDesde)} — elegí la fecha de salida`;
+  } else if(fechaDesde === fechaHasta){
+    el.textContent = formatearFechaLarga(fechaDesde);
+  } else {
+    el.textContent = `Del ${formatearFechaLarga(fechaDesde)} al ${formatearFechaLarga(fechaHasta)}`;
+  }
+}
 function pintarCalendario(){
   calMesEl.textContent = `${meses[calMesIdx]} ${calAno}`;
   calGrid.innerHTML = '';
@@ -1420,13 +1490,29 @@ function pintarCalendario(){
     celda.textContent = d;
     celda.className = 'cal-dia ' + (esBloqueada || esPasado ? 'bloqueado' : 'libre');
     if(iso === `${hoy.getFullYear()}-${pad(hoy.getMonth()+1)}-${pad(hoy.getDate())}`) celda.classList.add('hoy');
-    if(iso === fechaSeleccionada) celda.classList.add('seleccionado');
+    if(iso === fechaDesde || iso === fechaHasta) celda.classList.add('seleccionado');
+    else if(fechaDesde && fechaHasta && iso > fechaDesde && iso < fechaHasta) celda.classList.add('en-rango');
     if(!esBloqueada && !esPasado){
       celda.addEventListener('click', ()=>{
-        fechaSeleccionada = iso;
-        document.getElementById('resFecha').textContent =
-          new Intl.DateTimeFormat(CONFIG.locale,{day:'numeric',month:'long',year:'numeric'}).format(new Date(calAno,calMesIdx,d));
-        document.getElementById('resError').classList.remove('visible');
+        const err = document.getElementById('resError');
+        if(!fechaDesde || (fechaDesde && fechaHasta)){
+          fechaDesde = iso; fechaHasta = null;
+          err.classList.remove('visible');
+        } else if(iso < fechaDesde){
+          fechaDesde = iso;
+          err.classList.remove('visible');
+        } else if(hayBloqueadaEnRango(fechaDesde, iso)){
+          // No se puede cerrar el rango sin cruzar un día ocupado — en vez de dejar
+          // a la persona trabada con el mismo "Desde", este click arranca un rango
+          // nuevo desde acá (mismo criterio que un date-picker estándar).
+          fechaDesde = iso; fechaHasta = null;
+          err.textContent = 'Ese rango incluía una fecha sin disponibilidad — arrancamos de nuevo desde el día que tocaste.';
+          err.classList.add('visible');
+        } else {
+          fechaHasta = iso;
+          err.classList.remove('visible');
+        }
+        actualizarResumenFecha();
         pintarCalendario();
       });
     }
@@ -1444,7 +1530,7 @@ document.getElementById('calNext').addEventListener('click', ()=>{ calMesIdx++; 
    lo que ya estaba hardcodeado arriba — nunca se vacía el calendario ni se
    rompe la carga (mismo criterio de degradación que cargarProductosPublico()
    en mercat.html). */
-const CAL_KEYS_VALIDOS = ['general','camping','cabanas','motorhome'];
+const CAL_KEYS_VALIDOS = ['general','camping','motorhome'];
 
 function cargarDisponibilidad(){
   if(!CONFIG.urlDisponibilidad || CONFIG.urlDisponibilidad.includes('REEMPLAZAR') || typeof Papa === 'undefined') return;
@@ -1455,28 +1541,16 @@ function cargarDisponibilidad(){
     download:true, header:true, skipEmptyLines:true,
     complete: res=>{
       try{
-        const nuevo = {general:[], camping:[], cabanas:[], motorhome:[]};
-        const cabanaSvc = CONFIG.servicios.find(s=> s.calKey === 'cabanas');
-        const porUnidad = {}; // nombre de cabaña -> [] de fechas
+        const nuevo = {general:[], camping:[], motorhome:[]};
 
         res.data.forEach(row=>{
           const servicio = (row.servicio||'').trim();
           const fecha = (row.fecha||'').trim();
-          const unidad = (row.unidad||'').trim();
           if(!CAL_KEYS_VALIDOS.includes(servicio) || !/^\d{4}-\d{2}-\d{2}$/.test(fecha)){
             console.warn('Fila de disponibilidad inválida, ignorada:', row);
             return;
           }
-          if(servicio === 'cabanas' && unidad){
-            (porUnidad[unidad] = porUnidad[unidad] || []).push(fecha);
-          } else {
-            nuevo[servicio].push(fecha);
-          }
-        });
-
-        if(cabanaSvc) Object.keys(porUnidad).forEach(nombre=>{
-          if(!cabanaSvc.unidades.some(u=> u.nombre === nombre))
-            console.warn('Unidad de disponibilidad sin match en CONFIG.servicios cabana.unidades:', nombre);
+          nuevo[servicio].push(fecha);
         });
 
         // Recién acá se pisa el dato hardcodeado — todo el parseo anterior fue
@@ -1484,18 +1558,14 @@ function cargarDisponibilidad(){
         // cae al catch de abajo sin tocar CONFIG a medio pisar.
         CONFIG.fechasBloqueadas.general   = nuevo.general;
         CONFIG.fechasBloqueadas.camping   = nuevo.camping;
-        CONFIG.fechasBloqueadas.cabanas   = nuevo.cabanas;
         CONFIG.fechasBloqueadas.motorhome = nuevo.motorhome;
-        if(cabanaSvc) cabanaSvc.unidades.forEach(u=>{
-          if(porUnidad[u.nombre]) u.bloqueadas = porUnidad[u.nombre];
-        });
 
         // Si la fecha ya elegida por el visitante quedó bloqueada según el
         // dato real, se suelta antes de repintar (para no dejar "confirmar"
         // una reserva sobre una fecha que en realidad está ocupada).
-        if(fechaSeleccionada && bloqueadasActivas().includes(fechaSeleccionada)){
-          fechaSeleccionada = null;
-          document.getElementById('resFecha').textContent = 'Por elegir';
+        if((fechaDesde && bloqueadasActivas().includes(fechaDesde)) || (fechaHasta && bloqueadasActivas().includes(fechaHasta))){
+          fechaDesde = null; fechaHasta = null;
+          actualizarResumenFecha();
         }
         pintarCalendario();
       }catch(e){
@@ -1511,44 +1581,74 @@ function cargarDisponibilidad(){
 }
 cargarDisponibilidad();
 
-/* ---------- SEMÁFORO DE CABAÑAS (Sheet de 1 celda + PapaParse) ----------
-   1-sep-2026, pedido de Facundo: reemplaza el calendario por unidad. El equipo de Cirse
-   escribe "verde" o "rojo" en una única celda de un Sheet publicado a la web — sin tocar
-   código. Si CONFIG.urlSemaforoCabanas sigue en REEMPLAZAR, o el Sheet no responde, o
-   viene vacío/mal escrito, se asume "verde" (hay lugar) por defecto: es el error más
-   barato — mejor contestar "no hay lugar" a mano por WhatsApp que espantar a alguien que
-   sí tenía dónde alojarse. */
-let disponibilidadCabanas = 'verde';
-function pintarSemaforoCabanas(){
-  const punto = document.getElementById('semaforoPunto');
-  const texto = document.getElementById('semaforoTexto');
-  if(!punto || !texto) return;
-  const hayLugar = disponibilidadCabanas !== 'rojo';
-  punto.style.background = hayLugar ? '#3fae6a' : '#c0705a';
-  texto.textContent = hayLugar ? 'Hay cabañas disponibles' : 'No hay cabañas disponibles en este momento';
-}
-function cargarSemaforoCabanas(){
-  pintarSemaforoCabanas();
-  if(!CONFIG.urlSemaforoCabanas || CONFIG.urlSemaforoCabanas.includes('REEMPLAZAR') || typeof Papa === 'undefined') return;
-  const url = CONFIG.urlSemaforoCabanas + (CONFIG.urlSemaforoCabanas.includes('?') ? '&' : '?') + 't=' + Date.now();
-  Papa.parse(url, {
-    download:true, skipEmptyLines:true,
-    complete: res=>{
-      try{
-        const valor = ((res.data[0] && res.data[0][0]) || '').trim().toLowerCase();
-        disponibilidadCabanas = (valor === 'rojo') ? 'rojo' : 'verde';
-      }catch(e){
-        console.warn('No se pudo leer el semáforo de cabañas, se mantiene verde por defecto:', e.message);
-      }
-      pintarSemaforoCabanas();
-    },
-    error: err=>{
-      console.warn('No se pudo cargar el semáforo de cabañas, se mantiene verde por defecto:', err.message);
-      pintarSemaforoCabanas();
+/* ---------- CALENDARIO DE CABAÑAS (5 hojas independientes + PapaParse) ----------
+   4-sep-2026 (cuarta tanda): cada cabaña tiene su propia hoja de Google Sheets con
+   forma de calendario — una fila con los números de día y, pegada abajo, una fila
+   de "estado" en blanco (ver formato completo en calendario-cabana-plantilla.csv).
+   Vacía = libre, cualquier texto ahí = ocupado, sin depender de una palabra clave.
+   Cada cabaña se lee y se pinta SOLA — nunca se cruzan datos entre las 5, así un
+   rango de días libres en el sitio es siempre UNA cabaña completa. Si una hoja no
+   carga, esa cabaña se queda con lo que ya tenía (vacío al inicio = disponible):
+   mismo criterio de "falla barata" que el resto del sitio. */
+function parsearCalendarioCabana(filas){
+  const ocupadas = [];
+  let i = 0;
+  while(i < filas.length){
+    const fila = filas[i] || [];
+    const primera = (fila[0]||'').trim().toLowerCase();
+    const matchMes = primera.match(/^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+(\d{4})$/);
+    if(!matchMes){ i++; continue; }
+    const mes = meses.indexOf(matchMes[1]);
+    const anio = parseInt(matchMes[2], 10);
+    i += 2; // salta el título del mes y la fila de encabezado de días (decorativa)
+    while(i+1 < filas.length){
+      const filaNums = filas[i] || [];
+      const filaEstado = filas[i+1] || [];
+      const tieneNumeros = filaNums.some(c => /^\d{1,2}$/.test((c||'').trim()));
+      if(!tieneNumeros) break; // terminó el bloque de este mes
+      filaNums.forEach((celdaNum, col)=>{
+        const dia = parseInt((celdaNum||'').trim(), 10);
+        if(!dia || dia<1 || dia>31) return;
+        const estado = (filaEstado[col]||'').trim();
+        if(estado.length > 0) ocupadas.push(`${anio}-${pad(mes+1)}-${pad(dia)}`);
+      });
+      i += 2;
     }
+  }
+  return ocupadas;
+}
+function cargarCalendarioCabanas(){
+  const cabanaSvc = CONFIG.servicios.find(s=> s.id === 'cabana');
+  if(!cabanaSvc || !cabanaSvc.unidades || typeof Papa === 'undefined') return;
+  cabanaSvc.unidades.forEach(u=>{
+    const url = CONFIG.urlsCabana[u.nombre];
+    if(!url || url.includes('REEMPLAZAR')) return;
+    const urlConCache = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+    Papa.parse(urlConCache, {
+      // skipEmptyLines NUNCA debe ir en 'greedy' (ni en true) acá: el parser depende de que
+      // CADA fila se preserve en su posición exacta (título/encabezado/número/estado/separador)
+      // para poder emparejar cada fila de estado con la fila de números de arriba — 'greedy'
+      // borra las filas vacías (las de estado y las separadoras, que son vacías A PROPÓSITO)
+      // y descuadra todo el conteo, haciendo que se lean números de la semana siguiente como
+      // si fueran el estado de la semana actual.
+      download:true, header:false, skipEmptyLines:false,
+      complete: res=>{
+        try{
+          u.bloqueadas = parsearCalendarioCabana(res.data);
+        }catch(e){
+          console.warn(`No se pudo aplicar el calendario de ${u.nombre}, se mantiene el de respaldo:`, e.message);
+        }
+        if((fechaDesde && bloqueadasActivas().includes(fechaDesde)) || (fechaHasta && bloqueadasActivas().includes(fechaHasta))){
+          fechaDesde = null; fechaHasta = null;
+          actualizarResumenFecha();
+        }
+        pintarCalendario();
+      },
+      error: err=> console.warn(`No se pudo cargar el calendario de ${u.nombre}, se mantiene el de respaldo:`, err.message)
+    });
   });
 }
-cargarSemaforoCabanas();
+cargarCalendarioCabanas();
 
 /* ---------- E1: VALIDACIÓN QUE ENSEÑA ---------- */
 function validarCampo(wrapId, inputId){
@@ -1576,10 +1676,15 @@ function armarMensaje(){
       if(val) extra += `${c.label}: ${val}\n`;
     });
   }
-  const etiquetaFecha = servicioActivo.reservable ? 'Fecha' : 'Fecha aproximada de llegada';
-  const fechaTexto = document.getElementById('resFecha').textContent === 'Por elegir'
-    ? (servicioActivo.reservable ? 'Por elegir' : 'Sin especificar')
-    : document.getElementById('resFecha').textContent;
+  const etiquetaFecha = servicioActivo.reservable ? 'Fechas de la reserva' : 'Fechas aproximadas de estadía';
+  let fechaTexto;
+  if(!fechaDesde){
+    fechaTexto = servicioActivo.reservable ? 'Por elegir' : 'Sin especificar';
+  } else if(!fechaHasta || fechaDesde === fechaHasta){
+    fechaTexto = formatearFechaLarga(fechaDesde);
+  } else {
+    fechaTexto = `Del ${formatearFechaLarga(fechaDesde)} al ${formatearFechaLarga(fechaHasta)}`;
+  }
   return encodeURIComponent(
     (servicioActivo.reservable ? `Hola! Quiero reservar en ${CONFIG.nombreNegocio}\n\n` : `Hola! Quiero consultar disponibilidad en ${CONFIG.nombreNegocio}\n\n`) +
     `Servicio: ${resServicio.textContent}\n` +
@@ -1597,7 +1702,8 @@ document.getElementById('btnReservar').addEventListener('click', e=>{
   const okN = validarCampo('c-nombre','rNombre');
   const okP = validarCampo('c-personas','rPersonas');
   const okT = validarCampo('c-tel','rTelefono');
-  if(servicioActivo.tipoDisponibilidad === 'calendario' && servicioActivo.reservable && !fechaSeleccionada){
+  if(servicioActivo.tipoDisponibilidad === 'calendario' && servicioActivo.reservable && (!fechaDesde || !fechaHasta)){
+    resError.textContent = 'Elegí primero un rango de fechas (Desde y Hasta) disponible en el calendario.';
     resError.classList.add('visible');
     document.querySelector('.calendario').scrollIntoView({behavior: REDUCE?'auto':'smooth', block:'center'});
     return;
